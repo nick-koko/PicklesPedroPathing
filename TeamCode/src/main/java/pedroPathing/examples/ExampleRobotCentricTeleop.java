@@ -21,7 +21,7 @@ import pedroPathing.constants.LConstants;
 @TeleOp(name = "Example Robot-Centric Teleop", group = "Examples")
 public class ExampleRobotCentricTeleop extends OpMode {
     private Follower follower;
-    private final Pose startPose = new Pose(0,0,0);
+    private final Pose startPose = new Pose(9,62.75,0);
 
     /** This method is call once when init is played, it initializes the follower **/
     @Override
