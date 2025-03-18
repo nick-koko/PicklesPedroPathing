@@ -27,20 +27,20 @@ public class FConstants {
         FollowerConstants.forwardZeroPowerAcceleration = -32.6722;
         FollowerConstants.lateralZeroPowerAcceleration = -66.4537;
 
-        FollowerConstants.translationalPIDFCoefficients.setCoefficients(0.15,0,0.01,0);
+        FollowerConstants.translationalPIDFCoefficients.setCoefficients(0.2,0,0.01,0);
         FollowerConstants.useSecondaryTranslationalPID = false;
         FollowerConstants.secondaryTranslationalPIDFCoefficients.setCoefficients(0.1,0,0.01,0); // Not being used, @see useSecondaryTranslationalPID
 
-        FollowerConstants.headingPIDFCoefficients.setCoefficients(2,0,0.1,0);
+        FollowerConstants.headingPIDFCoefficients.setCoefficients(3,0,0.1,0);
         FollowerConstants.useSecondaryHeadingPID = false;
         FollowerConstants.secondaryHeadingPIDFCoefficients.setCoefficients(2,0,0.1,0); // Not being used, @see useSecondaryHeadingPID
 
-        FollowerConstants.drivePIDFCoefficients.setCoefficients(0.01,0,0.00001,0.6,0);  //start with .01, increase to 0.015, 0.02
+        FollowerConstants.drivePIDFCoefficients.setCoefficients(0.017,0,0.00017,0.6,0);  //start with .01, increase to 0.015, 0.02
         FollowerConstants.useSecondaryDrivePID = false;
         FollowerConstants.secondaryDrivePIDFCoefficients.setCoefficients(0.01,0,0.00001,0.6,0); // Not being used, @see useSecondaryDrivePID
 
         FollowerConstants.zeroPowerAccelerationMultiplier = 4; //Higher value means quicker stopping
-        FollowerConstants.centripetalScaling = 0.0005;
+        FollowerConstants.centripetalScaling = 0.0001;
 
         FollowerConstants.pathEndTimeoutConstraint = 100; //Might want to try 50 if there are issues
         FollowerConstants.pathEndTValueConstraint = 0.99; //Might want to try 97.5 or 95% if need it to move on earlier
