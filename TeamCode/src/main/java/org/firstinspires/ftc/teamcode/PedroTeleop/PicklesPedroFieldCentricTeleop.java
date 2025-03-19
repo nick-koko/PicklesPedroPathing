@@ -41,7 +41,7 @@ public class PicklesPedroFieldCentricTeleop extends OpMode {
     boolean goToTargetAngle;
     double targetAngleDeg = -135.0;
     double targetAngleRad;
-    double propAngleGain = 0.5;
+    double propAngleGain = -0.5;
     double minAnglePower = 0.075;
     double maxRotate = 0.8;
     double angleAllianceOffset = 0.0;
@@ -105,8 +105,8 @@ public class PicklesPedroFieldCentricTeleop extends OpMode {
         */
 
         double driving = -gamepad1.right_stick_y;
-        double strafe = gamepad1.right_stick_x;
-        double rotate = (gamepad1.left_stick_x) * 0.5;
+        double strafe = -gamepad1.right_stick_x;
+        double rotate = (-gamepad1.left_stick_x) * 0.5;
 
         double botHeadingRad = follower.getPose().getHeading();
 
