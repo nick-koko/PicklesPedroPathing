@@ -276,6 +276,12 @@ public class PicklesPedroFieldCentricTeleop extends OpMode {
             frontIntake.Stop();
         }
 
+        /* Telemetry Outputs of our Follower */
+        telemetry.addData("X", follower.getPose().getX());
+        telemetry.addData("Y", follower.getPose().getY());
+        telemetry.addData("Heading in Degrees", Math.toDegrees(follower.getPose().getHeading()));
+        telemetry.addData("Target Heading in Degrees", targetAngleDeg);
+
         telemetry.addData("Intake Arm State: ", intakeArmServo.getARMState());
         telemetry.addData("Intake Slide State: ", intakeSlide.getSlideState());
         telemetry.addData("Dumper State: ", dumper.getDumperState());
@@ -287,11 +293,6 @@ public class PicklesPedroFieldCentricTeleop extends OpMode {
         telemetry.addData("Left Trigger: ", gamepad2.left_trigger);
         telemetry.addData("Right Trigger: ", gamepad2.right_trigger);
         telemetry.addData("Claw State:    ",  specimenClaw.getClawState());
-
-        /* Telemetry Outputs of our Follower */
-        telemetry.addData("X", follower.getPose().getX());
-        telemetry.addData("Y", follower.getPose().getY());
-        telemetry.addData("Heading in Degrees", Math.toDegrees(follower.getPose().getHeading()));
 
         /* Update Telemetry to the Driver Hub */
         telemetry.update();
