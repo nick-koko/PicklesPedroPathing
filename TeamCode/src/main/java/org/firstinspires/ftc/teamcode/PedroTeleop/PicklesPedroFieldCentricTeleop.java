@@ -57,8 +57,7 @@ public class PicklesPedroFieldCentricTeleop extends OpMode {
             startPose = globalRobotDataPedro.autonPose;
             globalRobotDataPedro.hasAutonRun = false;
         }
-        Constants.setConstants(FConstants.class, LConstants.class);
-        follower = new Follower(hardwareMap);
+        follower = new Follower(hardwareMap, FConstants.class,LConstants.class);
         follower.setStartingPose(startPose);
 
         //Mechanisim Initialization
