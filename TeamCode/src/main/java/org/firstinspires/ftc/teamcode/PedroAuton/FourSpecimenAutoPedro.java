@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.PedroAuton;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.SequentialAction;
@@ -17,6 +19,7 @@ import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.actions.ClawActions;
 import org.firstinspires.ftc.teamcode.actions.DualSlideActions;
 import org.firstinspires.ftc.teamcode.actions.FollowPathActions;
@@ -42,6 +45,8 @@ import pedroPathing.constants.LConstants;
 public class FourSpecimenAutoPedro extends OpMode {
 
     private Follower follower;
+    private Telemetry telemetryA;
+
     private Timer pathTimer, actionTimer, opmodeTimer;
 
     /** This is the variable where we store the state of our auto.
@@ -212,6 +217,7 @@ public class FourSpecimenAutoPedro extends OpMode {
 
         follower = new Follower(hardwareMap, FConstants.class,LConstants.class);
         follower.setStartingPose(startPose);
+        telemetryA = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
 
         outtakeSlide.init(hardwareMap);
         outtakeDump.init(hardwareMap);
@@ -243,8 +249,8 @@ public class FourSpecimenAutoPedro extends OpMode {
         opmodeTimer.resetTimer();
         setPathState(0);
 
-        FollowPathActions followPlebian1Path = new FollowPathActions(Plebeian1, follower, true);
-        FollowPathActions followGoober2Path = new FollowPathActions(Goober2, follower, false);
+        FollowPathActions followPlebian1Path = new FollowPathActions(Plebeian1, follower, true, telemetryA);
+        FollowPathActions followGoober2Path = new FollowPathActions(Goober2, follower, false, telemetryA);
 
         Actions.runBlocking(
                 new SequentialAction(
