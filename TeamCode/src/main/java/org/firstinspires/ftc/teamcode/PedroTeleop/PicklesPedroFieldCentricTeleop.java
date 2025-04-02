@@ -14,7 +14,10 @@ import org.firstinspires.ftc.teamcode.mechanisms.DualSlideMechanism;
 import org.firstinspires.ftc.teamcode.mechanisms.IntakeArm;
 import org.firstinspires.ftc.teamcode.mechanisms.IntakeServoSpinner;
 import org.firstinspires.ftc.teamcode.mechanisms.IntakeSlide;
-import org.firstinspires.ftc.teamcode.mechanisms.OuttakeDumpMechanism;
+import org.firstinspires.ftc.teamcode.mechanisms.IntakeWrist;
+import org.firstinspires.ftc.teamcode.mechanisms.OuttakeArmMoverMechanism;
+import org.firstinspires.ftc.teamcode.mechanisms.OuttakeElbowMechanism;
+import org.firstinspires.ftc.teamcode.mechanisms.OuttakeWrist;
 
 import pedroPathing.constants.FConstants;
 import pedroPathing.constants.LConstants;
@@ -33,11 +36,14 @@ public class PicklesPedroFieldCentricTeleop extends OpMode {
     ClimbingHooks climbingServo = new ClimbingHooks();
     IntakeSlide intakeSlide =  new IntakeSlide();  //Mr. Todone
     IntakeArm intakeArmServo = new IntakeArm();
-    OuttakeDumpMechanism dumper = new OuttakeDumpMechanism();
+    OuttakeArmMoverMechanism outtakeArmServo = new OuttakeArmMoverMechanism();
+    IntakeWrist intakeWrist = new IntakeWrist();
+    OuttakeElbowMechanism outtakeElbow = new OuttakeElbowMechanism();
+    OuttakeWrist outtakeWrist = new OuttakeWrist();
 
     double intakeSlidePower = 0.0;
     double intakeSlidePowerFactor;
-    boolean fieldCentric = true;
+    boolean pushIntake = true;
     boolean goToTargetAngle;
     double targetAngleDeg = -135.0;
     double targetAngleRad;
@@ -68,13 +74,17 @@ public class PicklesPedroFieldCentricTeleop extends OpMode {
         climbingServo.init(hardwareMap);
         intakeSlide.init(hardwareMap);
         intakeArmServo.init(hardwareMap);
-        dumper.init(hardwareMap);
+        outtakeArmServo.init(hardwareMap);
+        intakeWrist.init(hardwareMap);
+        outtakeElbow.init(hardwareMap);
+        outtakeWrist.init(hardwareMap);
 
     }
 
     /** This method is called continuously after Init while waiting to be started. **/
     @Override
     public void init_loop() {
+        //Eat.Burger;
     }
 
     /** This method is called once at the start of the OpMode. **/
@@ -84,9 +94,12 @@ public class PicklesPedroFieldCentricTeleop extends OpMode {
 
         //follower.setPose(startPose); old RR teleop had robot.pose = startingPose; at the start of teleop, not sure if needed
 
-        dumper.DumperPositionDown();
+        outtakeArmServo.armMoverDrivePosition();
+        outtakeElbow.outtakeElbowDrivePosition();
+        outtakeWrist.wristPositionSideways();
         intakeSlide.slidePositionTransfer();
         intakeArmServo.armPositionDrive();
+        intakeWrist.wristPositionDrive();
         specimenClaw.clawOpen();
         climbingServo.hookPositionDown();
 
@@ -133,6 +146,8 @@ public class PicklesPedroFieldCentricTeleop extends OpMode {
 
         targetAngleRad = Math.toRadians(targetAngleDeg);
 
+
+//mR. TODONE 😎👌👌
         if (goToTargetAngle) {
             double targetAngleDiff = botHeadingRad - targetAngleRad;
             if (targetAngleDiff > Math.PI) {
@@ -153,13 +168,26 @@ public class PicklesPedroFieldCentricTeleop extends OpMode {
         follower.update();
 
         // INTAKE CONDITIONS
-        if(-gamepad2.right_stick_y > 0){
-            intakeSlidePowerFactor = 0.20;
+
+        if (-gamepad2.left_stick_y < -0.05) {
+            pushIntake = false;
+        } else {
+            pushIntake = true;
+        }
+
+        if ((-gamepad2.right_stick_y > 0) || (!pushIntake)) {
+            intakeSlidePowerFactor = 0.400;
         }
         else{
-            intakeSlidePowerFactor = 0.4;
+            intakeSlidePowerFactor = 0.800;
         }
         intakeSlidePower = -(gamepad2.right_stick_y * intakeSlidePowerFactor);
+
+//        if (gamepad2.dpad_up) {
+//            pushIntake = true;
+//        } else if (gamepad2.dpad_down) {
+//            pushIntake = false;
+//        }
 
         if (intakeSlidePower > 0.05) {
             if ((intakeArmServo.getARMState() == IntakeArm.INTAKE_ARM_STATES.INTAKE_ARM_TRANSFER_POS) ||
@@ -167,12 +195,25 @@ public class PicklesPedroFieldCentricTeleop extends OpMode {
                 intakeArmTime.reset();
                 stateDelayTime = 0.5;
             }
+
             if (!gamepad2.right_stick_button) {
                 if (intakeArmTime.time() > stateDelayTime) {
                     if (intakeSlide.getSlideMotorPos() > 380) {
-                        intakeArmServo.armPositionFarIntake();
+                        if (pushIntake == true) {
+                            intakeWrist.wristPositionPushIntake();
+                            intakeArmServo.armPositionFarIntake();
+                        } else {
+                            intakeWrist.wristPositionPullIntake();
+                            intakeArmServo.armPositionPullIntake();
+                        }
                     } else {
-                        intakeArmServo.armPositionIntake();
+                        if (pushIntake == true) {
+                            intakeWrist.wristPositionPushIntake();
+                            intakeArmServo.armPositionIntake();
+                        } else {
+                            intakeWrist.wristPositionPullIntake();
+                            intakeArmServo.armPositionPullIntake();
+                        }
                     }
                 } else {
                     intakeArmServo.armPositionAbyss();
@@ -182,15 +223,24 @@ public class PicklesPedroFieldCentricTeleop extends OpMode {
             frontIntake.Intake();
             intakeSlide.extendSlide(intakeSlidePower);
         } else if (intakeSlidePower < -0.05) {
-            if (intakeSlide.getSlideState() != IntakeSlide.SLIDE_STATES.SLIDE_INTAKE_POS){
-                intakeArmServo.armPositionTransfer();
-                //frontIntake.Stop();
-                intakeSlide.retractSlide(intakeSlidePower);
+            if (pushIntake) {
+                if (intakeSlide.getSlideState() != IntakeSlide.SLIDE_STATES.SLIDE_INTAKE_POS) {
+                    intakeArmServo.armPositionTransfer();
+                    intakeWrist.wristPositionTransfer();
+                    //frontIntake.Stop();
+                    //mouthIntake.eatPosition
+                    intakeSlide.retractSlide(intakeSlidePower);
+                } else {
+                    frontIntake.Stop();
+                    intakeSlide.slidePositionTransfer();
+                    intakeArmServo.armPositionAbyss();
+                    intakeWrist.wristPositionDrive();
+                    //frontIntake.Outtake();
+                }
             } else {
-                frontIntake.Stop();
-                intakeSlide.slidePositionTransfer();
-                intakeArmServo.armPositionAbyss();
-                //frontIntake.Outtake();
+                intakeWrist.wristPositionPullIntake();
+                intakeArmServo.armPositionPullIntake();
+                intakeSlide.retractSlide(intakeSlidePower);
             }
         } else {
             if (intakeSlide.getSlideState() == IntakeSlide.SLIDE_STATES.SLIDE_TRANSFER_POS)
@@ -198,6 +248,10 @@ public class PicklesPedroFieldCentricTeleop extends OpMode {
                 intakeSlide.slidePositionTransfer();
             } else {
                 intakeSlide.stopSlide();
+                if (!pushIntake) {
+                    intakeWrist.wristPositionPullIntake();
+                    intakeArmServo.armPositionPullIntake();
+                }
             }
 
             if (frontIntake.getIntakeState() != IntakeServoSpinner.INTAKE_SPINNER_STATES.SPINNER_INTAKING) {
@@ -226,6 +280,7 @@ public class PicklesPedroFieldCentricTeleop extends OpMode {
 
         if (gamepad2.y) {
             intakeArmServo.armPositionDrive();
+            intakeWrist.wristPositionDrive();
             outtakeSlide.slidePositionHigh();
         }
         else if (gamepad2.a) {
@@ -233,18 +288,22 @@ public class PicklesPedroFieldCentricTeleop extends OpMode {
                 specimenClaw.clawDropPosition();
             }
             intakeArmServo.armPositionDrive();
+            intakeWrist.wristPositionDrive();
             outtakeSlide.slidePositionLow();
         }
         else if (gamepad2.x) {
             intakeArmServo.armPositionDrive();
+            intakeWrist.wristPositionDrive();
             outtakeSlide.slidePositionMiddle();
         }
         else if (gamepad2.b) {
             intakeArmServo.armPositionDrive();
+            intakeWrist.wristPositionDrive();
             outtakeSlide.slidePositionSpecimenDrop();
         }
         else if (gamepad2.start) {
             intakeArmServo.armPositionDrive();
+            intakeWrist.wristPositionDrive();
             specimenClaw.clawClose();
             outtakeSlide.slidePositionClimb();
             climbingServo.hookPositionHigh();
@@ -264,10 +323,11 @@ public class PicklesPedroFieldCentricTeleop extends OpMode {
         if (gamepad2.right_bumper) {
             if (intakeArmServo.getARMState() == IntakeArm.INTAKE_ARM_STATES.INTAKE_ARM_TRANSFER_POS) {
                 intakeArmServo.armPositionDrive();
+                intakeWrist.wristPositionDrive();
             }
-            dumper.DumperPositionDump();
+            outtakeArmServo.armMoverBucketPosition();
         } else {
-            dumper.DumperPositionDown();
+            outtakeArmServo.armMoverDrivePosition();
         }
         if (gamepad2.left_bumper) {
             frontIntake.Outtake();
@@ -281,12 +341,13 @@ public class PicklesPedroFieldCentricTeleop extends OpMode {
         telemetry.addData("Heading in Degrees", Math.toDegrees(follower.getPose().getHeading()));
         telemetry.addData("Target Heading in Degrees", targetAngleDeg);
 
+        telemetry.addData("Intake Push State: ",  pushIntake);
         telemetry.addData("Intake Arm State: ", intakeArmServo.getARMState());
         telemetry.addData("Intake Slide State: ", intakeSlide.getSlideState());
-        telemetry.addData("Dumper State: ", dumper.getDumperState());
+        telemetry.addData("OuttakeArmServo State: ", outtakeArmServo.getArmMoverState());
         telemetry.addData("Outtake Slide State: ", outtakeSlide.getSlideState());
         telemetry.addData("Intake Slide Power:", intakeSlidePower);
-        telemetry.addData("Slide Motor Position:", intakeSlide.getSlideMotorPos());
+        telemetry.addData("Intake Motor Position:", intakeSlide.getSlideMotorPos());
         telemetry.addData("Slide Motor R Position:", outtakeSlide.getSlideRMotorPos());
         telemetry.addData("Slide Motor L Position:", outtakeSlide.getSlideLMotorPos());
         telemetry.addData("Left Trigger: ", gamepad2.left_trigger);

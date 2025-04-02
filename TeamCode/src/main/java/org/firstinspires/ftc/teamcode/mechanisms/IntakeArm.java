@@ -10,19 +10,20 @@ public class IntakeArm {
     private Servo intakeArmServo;
 
     // Target positions for the servo arm
-    public static double INTAKE_POSITION = 0.215; //above group... will kill power .245
+    public static double INTAKE_POSITION = 1; //above group... will kill power .245
+    public static double PULL_INTAKE_POSITION = 0.89;
     static double INTAKE_TELEOP_POSITION = 0.211;
-    static double DRIVE_POSITION = 0.77; //perpindicuar .8
-    static double TRANSFER_POSITION = 0.85; //servo towards slides .88
-    static double ABYSS_POSITION = 0.37; //servo towards slides .4
-    public static double INTAKE_FAR_POSITION = 0.227; //above group... will kill power .245   ༼ つ ◕_◕ ༽つ
+   public static double DRIVE_POSITION = 0; //perpindicuar .8
+   public static double TRANSFER_POSITION = 0.15; //servo towards slides .88
+   public static double ABYSS_POSITION = 0.7; //servo towards slides .4
+    public static double INTAKE_FAR_POSITION = 1; //mR TODONE 😎👌👌👌  ༼ つ ◕_◕ ༽つ ༼ ◕_◕ ༽
 
     private ElapsedTime armTimer = new ElapsedTime();
     public enum INTAKE_ARM_STATES{
         INTAKE_ARM_INTAKE_POS, INTAKE_ARM_DRIVE_POS, INTAKE_ARM_TRANSFER_POS, INTAKE_ARM_ABYSS_POS, INTAKE_ARM_INTAKE_FAR_POS
     }
 
-    private INTAKE_ARM_STATES curARMState = null;
+    private INTAKE_ARM_STATES curARMState = null; //༼ つ ◕_◕ ༽つ ༼ つ ◕_◕ ༽つ ༼ つ ◕_◕ ༽つ
     private INTAKE_ARM_STATES nextARMState = null;
 
     double stateDelayTime = 0;
@@ -42,6 +43,11 @@ public class IntakeArm {
             nextARMState = INTAKE_ARM_STATES.INTAKE_ARM_INTAKE_POS;
     }
     // Method to move the arm to the intake position
+    public void armPositionPullIntake() {
+        intakeArmServo.setPosition(PULL_INTAKE_POSITION);
+        curARMState = INTAKE_ARM_STATES.INTAKE_ARM_INTAKE_POS;
+        nextARMState = INTAKE_ARM_STATES.INTAKE_ARM_INTAKE_POS;
+    }
     public void armPositionFarIntake() {
         intakeArmServo.setPosition(INTAKE_FAR_POSITION);
         curARMState = INTAKE_ARM_STATES.INTAKE_ARM_INTAKE_FAR_POS;

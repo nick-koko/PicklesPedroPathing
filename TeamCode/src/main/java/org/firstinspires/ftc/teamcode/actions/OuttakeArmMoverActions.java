@@ -1,30 +1,31 @@
 package org.firstinspires.ftc.teamcode.actions;
 
+import android.app.usage.NetworkStats;
+
 import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 
-import org.firstinspires.ftc.teamcode.mechanisms.OuttakeDumpMechanism;
+import org.firstinspires.ftc.teamcode.mechanisms.OuttakeArmMoverMechanism;
 
-public class OuttakeDumpActions extends OuttakeDumpMechanism {
+public class OuttakeArmMoverActions extends OuttakeArmMoverMechanism {
 
-    public class DumpPosition implements Action {
+    public class BucketPosition implements Action {
         private boolean initialized = false;
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             if (!initialized) {
-                DumperPositionDump();  //RIP driv, in our hearTs f0rever
+                armMoverBucketPosition();  //RIP driv, in our hearTs f0rever
                 initialized = true;
                 return true;
             }
             return false;
         }
     }
-
-    public Action dumpPosition() {
-        return new DumpPosition();
+    public Action bucketPosition() {
+        return new BucketPosition();
     }
 
     public class DownPosition implements Action {
@@ -33,7 +34,7 @@ public class OuttakeDumpActions extends OuttakeDumpMechanism {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             if (!initialized) {
-                DumperPositionDown();
+                armMoverTransferPosition();
                 initialized = true;
                 return true;
             }

@@ -2,19 +2,15 @@ package org.firstinspires.ftc.teamcode.PedroAuton;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.localization.Pose;
 import com.pedropathing.pathgen.BezierCurve;
 import com.pedropathing.pathgen.BezierLine;
-import com.pedropathing.pathgen.Path;
 import com.pedropathing.pathgen.PathChain;
 import com.pedropathing.pathgen.Point;
-import com.pedropathing.util.Constants;
 import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -26,7 +22,7 @@ import org.firstinspires.ftc.teamcode.actions.FollowPathActions;
 import org.firstinspires.ftc.teamcode.actions.IntakeArmActions;
 import org.firstinspires.ftc.teamcode.actions.IntakeSlideAction;
 import org.firstinspires.ftc.teamcode.actions.IntakeservoSpinnerActions;
-import org.firstinspires.ftc.teamcode.actions.OuttakeDumpActions;
+import org.firstinspires.ftc.teamcode.actions.OuttakeArmMoverActions;
 
 import pedroPathing.constants.FConstants;
 import pedroPathing.constants.LConstants;
@@ -69,7 +65,7 @@ public class FourSpecimenAutoPedro extends OpMode {
     /* These are our Paths and PathChains that we will define in buildPaths() */
     private PathChain Plebeian1, Goober2, OhDip3;
 
-    OuttakeDumpActions outtakeDump = new OuttakeDumpActions();
+    OuttakeArmMoverActions outtakeDump = new OuttakeArmMoverActions();
     DualSlideActions outtakeSlide =  new DualSlideActions();
     ClawActions outtakeClaw = new ClawActions();
     IntakeSlideAction intakeSlide = new IntakeSlideAction();

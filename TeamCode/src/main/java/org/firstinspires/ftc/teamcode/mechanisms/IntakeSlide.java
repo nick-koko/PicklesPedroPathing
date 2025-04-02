@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.mechanisms;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class IntakeSlide {
@@ -22,7 +23,7 @@ public class IntakeSlide {
     public void init(HardwareMap hwMap) {
 
         slideMotor = hwMap.get(DcMotor.class, "intake_slide_motor");
-        this.slideMotor.setDirection(DcMotor.Direction.FORWARD);
+        this.slideMotor.setDirection(DcMotor.Direction.REVERSE);
  //       this.slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); //TODO
         this.slideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         curSlideState = SLIDE_STATES.SLIDE_TRANSFER_POS;

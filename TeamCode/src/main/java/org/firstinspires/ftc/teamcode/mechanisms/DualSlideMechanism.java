@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.mechanisms;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class DualSlideMechanism {
@@ -34,11 +35,11 @@ public class DualSlideMechanism {
     public void init(HardwareMap hwMap) {
 //stop don't rock to me, boulder pebble wannabe like oh, concrete.
         slideMotorL = hwMap.get(DcMotor.class, "slide_motor_left");
-        this.slideMotorL.setDirection(DcMotor.Direction.FORWARD);
+        this.slideMotorL.setDirection(DcMotor.Direction.REVERSE);
 //        this.slideMotorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); //TODO
         this.slideMotorL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         slideMotorR = hwMap.get(DcMotor.class, "slide_motor_right"); //Mr. Todone-->😎👌👌kitrbywudywgdddddddddddddd
-        this.slideMotorR.setDirection(DcMotor.Direction.REVERSE);
+        this.slideMotorR.setDirection(DcMotor.Direction.FORWARD);
 //        this.slideMotorR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); //TODO
         this.slideMotorR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         curSlideState = SLIDE_STATES.SLIDE_SPECIMENDROP_POS;
