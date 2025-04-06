@@ -38,8 +38,8 @@ public class PicklesPedroFieldCentricTeleop extends OpMode {
     IntakeArm intakeArmServo = new IntakeArm();
     OuttakeArmMoverMechanism outtakeArmServo = new OuttakeArmMoverMechanism();
     IntakeWrist intakeWrist = new IntakeWrist();
-    //OuttakeElbowMechanism outtakeElbow = new OuttakeElbowMechanism();
-    //OuttakeWrist outtakeWrist = new OuttakeWrist();
+    OuttakeElbowMechanism outtakeElbow = new OuttakeElbowMechanism();
+    OuttakeWrist outtakeWrist = new OuttakeWrist();
 
     double intakeSlidePower = 0.0;
     double intakeSlidePowerFactor;
@@ -76,8 +76,8 @@ public class PicklesPedroFieldCentricTeleop extends OpMode {
         intakeArmServo.init(hardwareMap);
         outtakeArmServo.init(hardwareMap);
         intakeWrist.init(hardwareMap);
-        //outtakeElbow.init(hardwareMap);
-        //outtakeWrist.init(hardwareMap);
+        outtakeElbow.init(hardwareMap);
+        outtakeWrist.init(hardwareMap);
 
     }
 
@@ -95,8 +95,8 @@ public class PicklesPedroFieldCentricTeleop extends OpMode {
         //follower.setPose(startPose); old RR teleop had robot.pose = startingPose; at the start of teleop, not sure if needed
 
         outtakeArmServo.armMoverDrivePosition();
-        //outtakeElbow.outtakeElbowDrivePosition();
-        //outtakeWrist.wristPositionSideways();
+        outtakeElbow.outtakeElbowDrivePosition();
+        outtakeWrist.wristPositionSideways();
         intakeSlide.slidePositionTransfer();
         intakeArmServo.armPositionDrive();
         intakeWrist.wristPositionDrive();
@@ -252,6 +252,10 @@ public class PicklesPedroFieldCentricTeleop extends OpMode {
                     intakeWrist.wristPositionPullIntake();
                     intakeArmServo.armPositionPullIntake();
                 }
+            }
+            if (gamepad2.right_bumper) {
+                outtakeArmServo.armMoverBucketPosition();
+                outtakeElbow.outtakeElbowBucketPosition();
             }
 
             if (frontIntake.getIntakeState() != IntakeServoSpinner.INTAKE_SPINNER_STATES.SPINNER_INTAKING) {

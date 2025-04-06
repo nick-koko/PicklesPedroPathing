@@ -10,9 +10,9 @@ public class OuttakeArmMoverMechanism {
     private Servo armMoverServo;
 
     // Target positions for the servo arm
-    public static double DRIVE_POSITION = .83;
-    public static double TRANSFER_POSITION = .83;
-    public static double BUCKET_POSITION = .24;
+    public static double DRIVE_POSITION = 0.83;
+    public static double TRANSFER_POSITION = 0.83;
+    public static double BUCKET_POSITION = 0.24;
     public static double SPECIMINE_GRAB_POSITION = 1;
     public static double SPECIMINE_HANG_POSITION = 1;
     public enum ARMMOVER_STATES{
