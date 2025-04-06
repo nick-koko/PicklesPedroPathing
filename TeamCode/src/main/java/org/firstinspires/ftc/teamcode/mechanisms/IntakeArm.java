@@ -14,7 +14,7 @@ public class IntakeArm {
     public static double PULL_INTAKE_POSITION = 0.89;
     static double INTAKE_TELEOP_POSITION = 0.211;
    public static double DRIVE_POSITION = 0; //perpindicuar .8
-   public static double TRANSFER_POSITION = 0.15; //servo towards slides .88
+   public static double TRANSFER_POSITION = 0.1; //servo towards slides .88
    public static double ABYSS_POSITION = 0.7; //servo towards slides .4
     public static double INTAKE_FAR_POSITION = 1; //mR TODONE 😎👌👌👌  ༼ つ ◕_◕ ༽つ ༼ ◕_◕ ༽
 

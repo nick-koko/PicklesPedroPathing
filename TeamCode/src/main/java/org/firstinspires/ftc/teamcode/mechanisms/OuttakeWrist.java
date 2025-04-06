@@ -11,9 +11,9 @@ public class OuttakeWrist {
     private Servo outtakeWristServo;
 
     // Target positions for the servo wrist
-    public static double SIDEWAYS_POSITION = 1;
-    public static double UP_POSITION = 1;
-    public static double DOWN_POSITION = 1;
+    public static double SIDEWAYS_POSITION = .468;
+    public static double UP_POSITION = .12;
+    public static double DOWN_POSITION = .825;
 
     private ElapsedTime wristTimer = new ElapsedTime();
     public enum OUTTAKE_WRIST_STATES{

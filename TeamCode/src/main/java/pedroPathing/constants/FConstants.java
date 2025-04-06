@@ -26,7 +26,7 @@ public class FConstants {
         FollowerConstants.yMovement = 51.656;
         FollowerConstants.forwardZeroPowerAcceleration = -32.6722;
         FollowerConstants.lateralZeroPowerAcceleration = -66.4537;
-
+        FollowerConstants.useBrakeModeInTeleOp = true;
         FollowerConstants.translationalPIDFCoefficients.setCoefficients(0.2,0,0.01,0);
         FollowerConstants.useSecondaryTranslationalPID = false;
         FollowerConstants.secondaryTranslationalPIDFCoefficients.setCoefficients(0.075,0,0.05,0); // Not being used, @see useSecondaryTranslationalPID

@@ -11,13 +11,13 @@ public class IntakeWrist {
     private Servo intakeWristServo;
 
     // Target positions for the servo wrist
-    public static double PUSH_INTAKE_POSITION = 0.385; //above group... will kill power .245
-    public static double PULL_INTAKE_POSITION = 0.1;
+    public static double PUSH_INTAKE_POSITION = 0.355; //above group... will kill power .245
+    public static double PULL_INTAKE_POSITION = 0.065;
     static double INTAKE_TELEOP_POSITION = 0.211;
-   public static double DRIVE_POSITION = 0.77; //perpindicuar .8
+   public static double DRIVE_POSITION = 0.54; //perpindicuar .8
     public static double TRANSFER_POSITION = 1.0; //servo towards slides .88
-    public static double ABYSS_POSITION = 0.37; //servo towards slides .4
-    public static double INTAKE_FAR_POSITION = 0.385; //above group... will kill power .245   ༼ つ ◕_◕ ༽つ
+    public static double ABYSS_POSITION = 0.34; //servo towards slides .4
+    public static double INTAKE_FAR_POSITION = 0.355; //above group... will kill power .245   ༼ つ ◕_◕ ༽つ
 
     private ElapsedTime wristTimer = new ElapsedTime();
     public enum INTAKE_WRIST_STATES{

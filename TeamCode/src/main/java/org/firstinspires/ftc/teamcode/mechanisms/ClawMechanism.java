@@ -10,9 +10,9 @@ public class ClawMechanism {
     private ServoImplEx clawServo;
 
     // Target positions for the servo claw
-    public static final double OPEN_POSITION = 0.6;
-    public static final double DROP_POSITION = 0.34;
-    public static final double CLOSE_POSITION = 0.34;
+    public static double OPEN_POSITION = 0.6;
+    public static double DROP_POSITION = 0.34;
+    public static double CLOSE_POSITION = 0.34;
     private ElapsedTime clawTimer = new ElapsedTime();
 
     public enum CLAW_STATES {
