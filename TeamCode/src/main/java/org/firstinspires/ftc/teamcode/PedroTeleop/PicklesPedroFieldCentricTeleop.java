@@ -52,7 +52,7 @@ public class PicklesPedroFieldCentricTeleop extends OpMode {
     double maxRotate = 0.8;
     double angleAllianceOffset = 0.0;
     ElapsedTime intakeArmTime = new ElapsedTime();
-    double stateDelayTime = 0.0;
+    double stateDelayTime = -1.0;
 
     private Pose startPose = new Pose(9,62.75,Math.toRadians(180));
 
@@ -188,12 +188,16 @@ public class PicklesPedroFieldCentricTeleop extends OpMode {
 //        } else if (gamepad2.dpad_down) {
 //            pushIntake = false;
 //        }
+        if (gamepad2.right_stick_button) {
+            intakeWrist.wristPositionAbyss();
+            intakeArmServo.armPositionAbyss();
+        }
 
         if (intakeSlidePower > 0.05) {
             if ((intakeArmServo.getARMState() == IntakeArm.INTAKE_ARM_STATES.INTAKE_ARM_TRANSFER_POS) ||
                     (intakeArmServo.getARMState() == IntakeArm.INTAKE_ARM_STATES.INTAKE_ARM_DRIVE_POS)) {
                 intakeArmTime.reset();
-                stateDelayTime = 0;
+                stateDelayTime = -1.0;
             }
 
             if (!gamepad2.right_stick_button) {
@@ -223,23 +227,31 @@ public class PicklesPedroFieldCentricTeleop extends OpMode {
             frontIntake.Intake();
             intakeSlide.extendSlide(intakeSlidePower);
         } else if (intakeSlidePower < -0.05) {
-            if (pushIntake) {
-                if (intakeSlide.getSlideState() != IntakeSlide.SLIDE_STATES.SLIDE_INTAKE_POS) {
-                    intakeArmServo.armPositionTransfer();
-                    intakeWrist.wristPositionTransfer();
-                    //frontIntake.Stop();
-                    //mouthIntake.eatPosition
-                    intakeSlide.retractSlide(intakeSlidePower);
+            if (!gamepad2.right_stick_button) {
+                if (pushIntake) {
+                    if (intakeSlide.getSlideState() != IntakeSlide.SLIDE_STATES.SLIDE_INTAKE_POS) {
+                        intakeArmServo.armPositionTransfer();
+                        intakeWrist.wristPositionTransfer();
+                        //frontIntake.Stop();
+                        //mouthIntake.eatPosition
+                        intakeSlide.retractSlide(intakeSlidePower);
+                    } else {
+                        frontIntake.Stop();
+                        intakeSlide.slidePositionTransfer();
+                        intakeArmServo.armPositionAbyss();
+                        intakeWrist.wristPositionDrive();
+                        //intakeArmServo.armPositionTransfer(); switch to Transfer if faster is better?
+                        //intakeWrist.wristPositionTransfer();
+
+                        //frontIntake.Outtake();
+                    }
                 } else {
-                    frontIntake.Stop();
-                    intakeSlide.slidePositionTransfer();
-                    intakeArmServo.armPositionAbyss();
-                    intakeWrist.wristPositionDrive();
-                    //frontIntake.Outtake();
+                    frontIntake.Intake();
+                    intakeWrist.wristPositionPullIntake();
+                    intakeArmServo.armPositionPullIntake();
+                    intakeSlide.retractSlide(intakeSlidePower);
                 }
             } else {
-                intakeWrist.wristPositionPullIntake();
-                intakeArmServo.armPositionPullIntake();
                 intakeSlide.retractSlide(intakeSlidePower);
             }
         } else {
@@ -248,7 +260,7 @@ public class PicklesPedroFieldCentricTeleop extends OpMode {
                 intakeSlide.slidePositionTransfer();
             } else {
                 intakeSlide.stopSlide();
-                if (!pushIntake) {
+                if ((!pushIntake) && (!gamepad2.right_stick_button)) {
                     intakeWrist.wristPositionPullIntake();
                     intakeArmServo.armPositionPullIntake();
                 }
@@ -322,9 +334,9 @@ public class PicklesPedroFieldCentricTeleop extends OpMode {
 
 
         if (gamepad2.right_bumper) {
-            if (intakeArmServo.getARMState() == IntakeArm.INTAKE_ARM_STATES.INTAKE_ARM_TRANSFER_POS) {
-                intakeArmServo.armPositionDrive();
+            if (intakeWrist.getWRISTState() == IntakeWrist.INTAKE_WRIST_STATES.INTAKE_WRIST_TRANSFER_POS) {
                 intakeWrist.wristPositionDrive();
+                intakeArmServo.armPositionDrive();
             }
             outtakeArmServo.armMoverBucketPosition();
         } else {

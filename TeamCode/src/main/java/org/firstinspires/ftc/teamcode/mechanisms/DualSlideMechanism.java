@@ -16,13 +16,13 @@ public class DualSlideMechanism {
     private static final int MIDDLE_POSITION_RIGHT = 520;
     private static final int SPECIMENGRAB_POSITION_LEFT = 0;
     private static final int LOW_POSITION_RIGHT = 0;
-    public static final int SPECIMENDROP_POSITION_RIGHT = 1316;
+    public static int SPECIMENDROP_POSITION_RIGHT = 1316;
     private static final int HIGH_POSITION_RIGHT = 1900;
     private static final int SPECIMENGRAB_POSITION_RIGHT = 0;
     private static final int CLIMB_POSITION_LEFT = 2275;
     private static final int CLIMB_POSITION_RIGHT = 2275; //😎👌👌 🐽🐖🐈🦕🐉🐍🦖🦎🐊
-    private static final int END_HANG_POSITION_LEFT = 1900;
-    private static final int END_HANG_POSITION_RIGHT = 1900; //😎👌👌 🐦👹🦀🦞❤️😡🤬👺💂‍♀️💂‍♂️💂👅👄🫦🐞🦋🧑‍🚒👨‍🚒👩‍🚒🐦‍🔥🐯🦊🦧🐅🫄🙎🙆🧏💁🙇🙋🤦💆🤷🧖💇
+    private static final int END_HANG_POSITION_LEFT = 1960;
+    private static final int END_HANG_POSITION_RIGHT = 1960; //😎👌👌 🐦👹🦀🦞❤️😡🤬👺💂‍♀️💂‍♂️💂👅👄🫦🐞🦋🧑‍🚒👨‍🚒👩‍🚒🐦‍🔥🐯🦊🦧🐅🫄🙎🙆🧏💁🙇🙋🤦💆🤷🧖💇
 
     //TODONE 😎👌👌
     public enum SLIDE_STATES{
