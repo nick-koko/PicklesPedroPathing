@@ -6,16 +6,17 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 
 import org.firstinspires.ftc.teamcode.mechanisms.IntakeArm;
+import org.firstinspires.ftc.teamcode.mechanisms.IntakeWrist;
 
-public class IntakeArmActions extends IntakeArm {
+public class IntakeWristActions extends IntakeWrist {
 
-    public class ArmDrive implements Action {
+    public class WristDrive implements Action {
         private boolean initialized = false;
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             if (!initialized) {
-                armPositionDrive();  //RIP driv, in our hearTs f0rever
+                wristPositionDrive();  //RIP driv, in our hearTs f0rever
                 initialized = true;
                 return true;
             }
@@ -23,17 +24,17 @@ public class IntakeArmActions extends IntakeArm {
         }
     }
 
-    public Action armDrive() {
-        return new ArmDrive();
+    public Action wristDrive() {
+        return new WristDrive();
     }
 
-    public class ArmIntakeAbyss implements Action {
+    public class WristIntakePush implements Action {
         private boolean initialized = false;
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             if (!initialized) {
-                armPositionAbyss();
+                wristPositionPushIntake();
                 initialized = true;
                 return true;
             }
@@ -41,16 +42,51 @@ public class IntakeArmActions extends IntakeArm {
         }
     }
 
-    public Action armIntakeAbyss() {
-        return new ArmIntakeAbyss();
+    public Action wristIntakePush() {
+        return new WristIntakePush();
     }
-    public class ArmIntakePush implements Action {
+
+    public class WristIntakePull implements Action {
         private boolean initialized = false;
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             if (!initialized) {
-                armPositionIntake();
+                wristPositionPullIntake();
+                initialized = true;
+                return true;
+            }
+            return false;
+        }
+    }
+    public Action wristIntakePull() {
+        return new WristIntakePull();
+    }
+
+    public class WristIntakeAbyss implements Action {
+        private boolean initialized = false;
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            if (!initialized) {
+                wristPositionAbyss();
+                initialized = true;
+                return true;
+            }
+            return false;
+        }
+    }
+    public Action wristIntakeAbyss() {
+        return new WristIntakeAbyss();
+    }
+
+    public class WristTransfer implements Action {
+        private boolean initialized = false;
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            if (!initialized) {
+                wristPositionTransfer();
                 initialized = true;
                 return true;
             }
@@ -58,42 +94,7 @@ public class IntakeArmActions extends IntakeArm {
         }
     }
 
-    public Action armIntakePush() {
-        return new ArmIntakePush();
-    }
-
-    public class ArmIntakePull implements Action {
-        private boolean initialized = false;
-
-        @Override
-        public boolean run(@NonNull TelemetryPacket packet) {
-            if (!initialized) {
-                armPositionPullIntake();
-                initialized = true;
-                return true;
-            }
-            return false;
-        }
-    }
-
-    public Action armIntakePull() {
-        return new ArmIntakePull();
-    }
-    public class ArmTransfer implements Action {
-        private boolean initialized = false;
-
-        @Override
-        public boolean run(@NonNull TelemetryPacket packet) {
-            if (!initialized) {
-                armPositionTransfer();
-                initialized = true;
-                return true;
-            }
-            return false;
-        }
-    }
-
-    public Action armTransfer() {
-        return new ArmTransfer();
+    public Action wristTransfer() {
+        return new WristTransfer();
     }
 }

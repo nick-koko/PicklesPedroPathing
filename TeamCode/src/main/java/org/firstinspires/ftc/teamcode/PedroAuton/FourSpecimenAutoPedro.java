@@ -255,6 +255,7 @@ public class FourSpecimenAutoPedro extends OpMode {
                                 outtakeSlide.specimenDrop()
                         ),
                         outtakeClaw.dropPosition(),
+                        outtakeClaw.off(),
                         outtakeSlide.low(),
                         followGoober2Path                     //😎👌👌👌 ༼ つ ◕_◕ ༽つ
                         //followOhDip3Path

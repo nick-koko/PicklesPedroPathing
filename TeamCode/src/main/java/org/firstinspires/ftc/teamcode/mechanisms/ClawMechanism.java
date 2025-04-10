@@ -1,18 +1,20 @@
 package org.firstinspires.ftc.teamcode.mechanisms;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+@Config
 public class ClawMechanism {
     // Assuming some motor control library is used, e.g., FTC SDK, but this can be customized
     private ServoImplEx clawServo;
 
     // Target positions for the servo claw
-    public static double OPEN_POSITION = 0.6;
-    public static double DROP_POSITION = 0.34;
-    public static double CLOSE_POSITION = 0.34;
+    public static double OPEN_POSITION = 0.5;
+    public static double DROP_POSITION = 0.455;
+    public static double CLOSE_POSITION = 0.2;
     private ElapsedTime clawTimer = new ElapsedTime();
 
     public enum CLAW_STATES {
@@ -26,7 +28,7 @@ public class ClawMechanism {
     public void init(HardwareMap hwMap) {
 
         clawServo = hwMap.get(ServoImplEx.class, "claw_servo");
-        this.clawServo.setDirection(Servo.Direction.REVERSE);
+        this.clawServo.setDirection(Servo.Direction.FORWARD);
         curClawState = CLAW_STATES.CLAW_OPEN_POS;
     }
 

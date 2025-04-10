@@ -9,7 +9,7 @@ public class IntakeSlide {
     private DcMotor slideMotor;
 
     // Target positions for the slide mechanism
-    protected static final int AUTON_POSITION = 100;
+    protected static final int AUTON_POSITION = 150;
     private static final int TOP_POSITION = 481;
     private static final int STARTING_POSITION = 0;
     private static final int TRANSFER_POSITION = 0;
@@ -66,6 +66,14 @@ public class IntakeSlide {
         else {
             this.slideMotor.setPower(0.0);
         }
+    }
+
+    public void retractSlideIgnoreEncoderPosition(double power) {
+        // Set the motor power to a negative value to retract the slide
+        this.slideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        // Here we don't worry about the encoder position as we are trying to fix encoder issues
+          this.slideMotor.setPower(power);
     }
 
     // Method to stop the slide

@@ -42,7 +42,10 @@ public class PicklesPedroFieldCentricTeleop extends OpMode {
     //OuttakeWrist outtakeWrist = new OuttakeWrist();
 
     double intakeSlidePower = 0.0;
+    double intakeLeftStickSlidePower = 0.0;
     double intakeSlidePowerFactor;
+    double intakeLeftStickSlidePowerFactor;
+
     boolean pushIntake = true;
     boolean goToTargetAngle;
     double targetAngleDeg = -135.0;
@@ -53,7 +56,8 @@ public class PicklesPedroFieldCentricTeleop extends OpMode {
     double angleAllianceOffset = 0.0;
     ElapsedTime intakeArmTime = new ElapsedTime();
     double stateDelayTime = -1.0;
-
+    boolean retractingOuttakeSlide = false;
+    boolean retractingIntakeSlide = false;
     private Pose startPose = new Pose(9,62.75,Math.toRadians(180));
 
     /** This method is call once when init is played, it initializes the follower **/
@@ -84,7 +88,12 @@ public class PicklesPedroFieldCentricTeleop extends OpMode {
     /** This method is called continuously after Init while waiting to be started. **/
     @Override
     public void init_loop() {
-        //Eat.Burger;
+        //if (stomatchCapacity.low)
+        if (gamepad1.right_trigger > 0.2) {
+            intakeSlide.resetSlide();
+            outtakeSlide.resetSlide();
+            gamepad1.rumble(1000);
+        }
     }
 
     /** This method is called once at the start of the OpMode. **/
@@ -169,28 +178,47 @@ public class PicklesPedroFieldCentricTeleop extends OpMode {
 
         // INTAKE CONDITIONS
 
+        intakeLeftStickSlidePowerFactor = 0.4;
+
         if (-gamepad2.left_stick_y < -0.05) {
             pushIntake = false;
+            intakeLeftStickSlidePower = -(gamepad2.left_stick_y * intakeLeftStickSlidePowerFactor);
         } else {
             pushIntake = true;
+            intakeLeftStickSlidePower = 0.0;
         }
 
         if ((-gamepad2.right_stick_y > 0) || (!pushIntake)) {
             intakeSlidePowerFactor = 0.400;
-        }
-        else{
+        } else {
             intakeSlidePowerFactor = 0.800;
         }
+
         intakeSlidePower = -(gamepad2.right_stick_y * intakeSlidePowerFactor);
 
-//        if (gamepad2.dpad_up) {
-//            pushIntake = true;
-//        } else if (gamepad2.dpad_down) {
-//            pushIntake = false;
-//        }
+        if (gamepad2.dpad_down) {
+            outtakeSlide.retractSlideIgnoreEncoderPosition(-0.3);
+            retractingOuttakeSlide = true;
+        } else if (retractingOuttakeSlide) {
+            outtakeSlide.stopSlide();
+            retractingOuttakeSlide = false;
+        }
+        if (gamepad2.dpad_left) {
+            intakeSlide.retractSlideIgnoreEncoderPosition(-0.3);
+            retractingIntakeSlide = true;
+        } else if (retractingIntakeSlide) {
+            intakeSlide.stopSlide();
+            retractingIntakeSlide = false;
+        }
+
         if (gamepad2.right_stick_button) {
             intakeWrist.wristPositionAbyss();
             intakeArmServo.armPositionAbyss();
+        }
+        if (gamepad1.right_trigger > 0.2) {
+            intakeSlide.resetSlide();
+            outtakeSlide.resetSlide();
+            gamepad1.rumble(1000);
         }
 
         if (intakeSlidePower > 0.05) {
@@ -225,7 +253,12 @@ public class PicklesPedroFieldCentricTeleop extends OpMode {
             }
             //intakeArmServo.armPositionIntake();
             frontIntake.Intake();
-            intakeSlide.extendSlide(intakeSlidePower);
+            if (pushIntake == true) {
+                intakeSlide.extendSlide(intakeSlidePower);
+            } else {
+                intakeSlide.extendSlide(intakeSlidePower);
+                //intakeSlide.extendSlide(intakeLeftStickSlidePower);
+            }
         } else if (intakeSlidePower < -0.05) {
             if (!gamepad2.right_stick_button) {
                 if (pushIntake) {
@@ -249,7 +282,7 @@ public class PicklesPedroFieldCentricTeleop extends OpMode {
                     frontIntake.Intake();
                     intakeWrist.wristPositionPullIntake();
                     intakeArmServo.armPositionPullIntake();
-                    intakeSlide.retractSlide(intakeSlidePower);
+                    intakeSlide.retractSlide(intakeLeftStickSlidePower);
                 }
             } else {
                 intakeSlide.retractSlide(intakeSlidePower);
@@ -259,10 +292,12 @@ public class PicklesPedroFieldCentricTeleop extends OpMode {
             {
                 intakeSlide.slidePositionTransfer();
             } else {
-                intakeSlide.stopSlide();
                 if ((!pushIntake) && (!gamepad2.right_stick_button)) {
                     intakeWrist.wristPositionPullIntake();
                     intakeArmServo.armPositionPullIntake();
+                    intakeSlide.retractSlide(intakeLeftStickSlidePower);
+                } else {
+                    intakeSlide.stopSlide();
                 }
             }
 
@@ -271,51 +306,41 @@ public class PicklesPedroFieldCentricTeleop extends OpMode {
             }
         }
 
-
-        if (gamepad2.dpad_left) {
-            frontIntake.Intake();
-            //       } else if (gamepad2.dpad_down) {
-            //           frontIntake.Stop();
-        } else if (gamepad2.dpad_right) {
-            frontIntake.Outtake();
-        }
-
         // Specimen Claw
         if (gamepad2.left_trigger > 0.05) {
-            specimenClaw.clawClose();
-        } else if (gamepad2.right_trigger > 0.05) {
             specimenClaw.clawOpen();
-
+        } else if (gamepad2.right_trigger > 0.05) {
+            specimenClaw.clawClose();
         }
-
 
         // SLIDE CONDITIONS
 
         if (gamepad2.y) {
-            intakeArmServo.armPositionDrive();
+            intakeArmServo.armPositionTransfer();
             intakeWrist.wristPositionDrive();
             outtakeSlide.slidePositionHigh();
         }
         else if (gamepad2.a) {
             if (outtakeSlide.getSlideState() == DualSlideMechanism.SLIDE_STATES.SLIDE_SPECIMENDROP_POS){
                 specimenClaw.clawDropPosition();
+                specimenClaw.clawOff();
             }
-            intakeArmServo.armPositionDrive();
+            intakeArmServo.armPositionTransfer();
             intakeWrist.wristPositionDrive();
             outtakeSlide.slidePositionLow();
         }
         else if (gamepad2.x) {
-            intakeArmServo.armPositionDrive();
+            intakeArmServo.armPositionTransfer();
             intakeWrist.wristPositionDrive();
             outtakeSlide.slidePositionMiddle();
         }
         else if (gamepad2.b) {
-            intakeArmServo.armPositionDrive();
+            intakeArmServo.armPositionTransfer();
             intakeWrist.wristPositionDrive();
             outtakeSlide.slidePositionSpecimenDrop();
         }
         else if (gamepad2.start) {
-            intakeArmServo.armPositionDrive();
+            intakeArmServo.armPositionTransfer();
             intakeWrist.wristPositionDrive();
             specimenClaw.clawClose();
             outtakeSlide.slidePositionClimb();
@@ -336,7 +361,7 @@ public class PicklesPedroFieldCentricTeleop extends OpMode {
         if (gamepad2.right_bumper) {
             if (intakeWrist.getWRISTState() == IntakeWrist.INTAKE_WRIST_STATES.INTAKE_WRIST_TRANSFER_POS) {
                 intakeWrist.wristPositionDrive();
-                intakeArmServo.armPositionDrive();
+                intakeArmServo.armPositionTransfer();
             }
             outtakeArmServo.armMoverBucketPosition();
         } else {

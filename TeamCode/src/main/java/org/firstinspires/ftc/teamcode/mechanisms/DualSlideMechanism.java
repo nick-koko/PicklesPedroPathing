@@ -96,6 +96,16 @@ public class DualSlideMechanism {
 
     }
 
+    public void retractSlideIgnoreEncoderPosition(double power) {
+        // Set the motor power to a negative value to retract the slide
+        this.slideMotorL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        this.slideMotorR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        // Here we don't worry about the encoder position as we are trying to fix encoder issues
+        this.slideMotorR.setPower(power);
+        this.slideMotorL.setPower(power);
+    }
+
     // Method to stop the slide
     public void stopSlide() {
         // Set the motor power to zero to stop the slide

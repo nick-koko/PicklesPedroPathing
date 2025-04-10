@@ -11,8 +11,8 @@ public class ClimbingHooks {
     private Servo climbingServo;
 
     // Target positions for the servo arm
-    public static double DOWN_POSITION = 0.067; //above group... will kill power .245
-    public static double HIGH_POSITION = 0.652; //above group... will kill power .245
+    public static double DOWN_POSITION = 0.652; //above group... will kill power .245
+    public static double HIGH_POSITION = 0.067; //above group... will kill power .245
 
     private ElapsedTime armTimer = new ElapsedTime();
     public enum CLIMBING_HOOK_STATE{
@@ -27,7 +27,7 @@ public class ClimbingHooks {
     public void init(HardwareMap hwMap) {
 
         climbingServo = hwMap.get(Servo.class, "climbing_hook_servo");
-        this.climbingServo.setDirection(Servo.Direction.FORWARD);
+        this.climbingServo.setDirection(Servo.Direction.REVERSE);
         currClimbHookState = CLIMBING_HOOK_STATE.CLIMBING_HOOKS_DOWN_POSITION;
         nextClimbHookState = CLIMBING_HOOK_STATE.CLIMBING_HOOKS_HIGH_POS;
     }
