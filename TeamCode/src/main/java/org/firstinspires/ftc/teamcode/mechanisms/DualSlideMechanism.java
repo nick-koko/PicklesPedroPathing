@@ -1,8 +1,11 @@
 package org.firstinspires.ftc.teamcode.mechanisms;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
 public class DualSlideMechanism {
     // Assuming some motor control library is used, e.g., FTC SDK, but this can be customized
@@ -210,4 +213,11 @@ public class DualSlideMechanism {
     public int getSlideRMotorPos() {
         return this.slideMotorR.getCurrentPosition();
     }
+    public double getSlideLMotorCurr() {
+        return (((DcMotorEx)this.slideMotorL).getCurrent(CurrentUnit.AMPS));
+    }
+    public double getSlideRMotorCurr() {
+        return (((DcMotorEx)this.slideMotorR).getCurrent(CurrentUnit.AMPS));
+    }
+
 }

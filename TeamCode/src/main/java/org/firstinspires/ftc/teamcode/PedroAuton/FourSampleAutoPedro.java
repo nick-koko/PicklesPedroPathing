@@ -64,16 +64,17 @@ public class FourSampleAutoPedro extends OpMode {
     /** Start Pose of our robot */
     Pose initialPoseLeftSideSample = new Pose(7.5, 79.5, Math.toRadians(-90));
     Pose dumpPoseLeftSideSample = new Pose(18.500, 126.500, Math.toRadians(-45));
-    Pose dumpPoseLeftSideFromSamples = new Pose(16.500, 125.500, Math.toRadians(-45));
+    Pose dumpPoseLeftSideFromSamples = new Pose(16.500, 125.500, Math.toRadians(-40));
     Pose firstSamplePoseLeftSideSample1 = new Pose(45.544, 106.0, Math.toRadians(90));
     Pose firstSamplePoseLeftSideSample2 = new Pose(45.544, 107.447, Math.toRadians(90));
     Pose secondSamplePoseLeftSideSample = new Pose(45.544, 120.447, Math.toRadians(90));
-    Pose thirdSamplePoseLeftSideSample = new Pose(45.544, 125.447, Math.toRadians(90));
-
+    Pose thirdSamplePoseLeftSideSample = new Pose(45.544, 127.447, Math.toRadians(90));
+    Pose goToSubPose1 = new Pose(62, 98, Math.toRadians(-90));
+    Pose goToSubPose1_CP = new Pose(62.5, 124, Math.toRadians(-90));
     Pose startPose = initialPoseLeftSideSample;
 
     /* These are our Paths and PathChains that we will define in buildPaths() */
-    private PathChain StartToBucket1, BucketToSample2, StopAtSample, SampleToBucket3, BucketToSample4, SampleToBucket5, BucketToSample6, SampleToBucket7;
+    private PathChain StartToBucket1, BucketToSample2, StopAtSample, SampleToBucket3, BucketToSample4, SampleToBucket5, BucketToSample6, SampleToBucket7, GotoSub8;
     private PathChain StartToBucketUseCallbacks1, BucketToSampleUseCallbacks2, SampleToBucketUseCallbacks3;
 
     OuttakeArmMoverActions outtakeDump = new OuttakeArmMoverActions();
@@ -225,6 +226,18 @@ public class FourSampleAutoPedro extends OpMode {
                 .setZeroPowerAccelerationMultiplier(3.5)
                 .build();
 
+        GotoSub8 = follower.pathBuilder()
+                .addPath(
+                        // Line 3
+                        new BezierCurve(
+                                new Point(dumpPoseLeftSideFromSamples),
+                                new Point(goToSubPose1_CP),
+                                new Point(goToSubPose1)
+                        )
+                )
+                .setLinearHeadingInterpolation(dumpPoseLeftSideFromSamples.getHeading(), goToSubPose1.getHeading())
+                .setZeroPowerAccelerationMultiplier(5)
+                .build();
         // The following use callbacks to schedule things
         StartToBucketUseCallbacks1 = follower.pathBuilder()
                 .addPath(
@@ -318,6 +331,7 @@ public class FourSampleAutoPedro extends OpMode {
         FollowPathActions followSampleToBucket5 = new FollowPathActions(SampleToBucket5, follower, true, telemetryA);
         FollowPathActions followBucketToSample6 = new FollowPathActions(BucketToSample6, follower, true, telemetryA);
         FollowPathActions followSampleToBucket7 = new FollowPathActions(SampleToBucket7, follower, true, telemetryA);
+        FollowPathActions followBucketToSub8 = new FollowPathActions(GotoSub8, follower, false, telemetryA);
 
         Actions.runBlocking(
                 new SequentialAction(
@@ -417,7 +431,7 @@ public class FourSampleAutoPedro extends OpMode {
                                 new SequentialAction(
                                         new SleepAction(0.1),
                                         outtakeDump.downPosition()
-                                ) /*,
+                                ),
                         //😎👌👌👌 ༼ つ ◕_◕ ༽つ
                                 followBucketToSample6,
                                 new SequentialAction(
@@ -456,8 +470,8 @@ public class FourSampleAutoPedro extends OpMode {
                                 new SequentialAction(
                                         new SleepAction(0.1),
                                         outtakeDump.downPosition()
-                                )*/
-                                //😎👌👌👌 ༼ つ ◕_◕ ༽つ
+                                ),
+                                followBucketToSub8//😎👌👌👌 ༼ つ ◕_◕ ༽つ
                         )
 
                 )

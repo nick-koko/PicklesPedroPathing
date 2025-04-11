@@ -287,7 +287,7 @@ public class PicklesPedroFieldCentricTeleop extends OpMode {
             } else {
                 intakeSlide.retractSlide(intakeSlidePower);
             }
-        } else {
+        } else if (!retractingIntakeSlide) {
             if (intakeSlide.getSlideState() == IntakeSlide.SLIDE_STATES.SLIDE_TRANSFER_POS)
             {
                 intakeSlide.slidePositionTransfer();
@@ -386,8 +386,10 @@ public class PicklesPedroFieldCentricTeleop extends OpMode {
         telemetry.addData("Outtake Slide State: ", outtakeSlide.getSlideState());
         telemetry.addData("Intake Slide Power:", intakeSlidePower);
         telemetry.addData("Intake Motor Position:", intakeSlide.getSlideMotorPos());
-        telemetry.addData("Slide Motor R Position:", outtakeSlide.getSlideRMotorPos());
-        telemetry.addData("Slide Motor L Position:", outtakeSlide.getSlideLMotorPos());
+        telemetry.addData("Out Slide Motor R Position:", outtakeSlide.getSlideRMotorPos());
+        telemetry.addData("Out Slide Motor L Position:", outtakeSlide.getSlideLMotorPos());
+        telemetry.addData("Out Slide Motor R Current:", outtakeSlide.getSlideRMotorCurr());
+        telemetry.addData("Out Slide Motor L Current:", outtakeSlide.getSlideLMotorCurr());
         telemetry.addData("Left Trigger: ", gamepad2.left_trigger);
         telemetry.addData("Right Trigger: ", gamepad2.right_trigger);
         telemetry.addData("Claw State:    ",  specimenClaw.getClawState());

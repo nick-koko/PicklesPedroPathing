@@ -13,7 +13,7 @@ public class ClawMechanism {
 
     // Target positions for the servo claw
     public static double OPEN_POSITION = 0.5;
-    public static double DROP_POSITION = 0.455;
+    public static double DROP_POSITION = 0.28;
     public static double CLOSE_POSITION = 0.2;
     private ElapsedTime clawTimer = new ElapsedTime();
 
