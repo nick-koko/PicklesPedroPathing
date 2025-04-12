@@ -68,7 +68,7 @@ public class FourSampleAutoPedro extends OpMode {
     Pose firstSamplePoseLeftSideSample1 = new Pose(45.544, 106.0, Math.toRadians(90));
     Pose firstSamplePoseLeftSideSample2 = new Pose(45.544, 107.447, Math.toRadians(90));
     Pose secondSamplePoseLeftSideSample = new Pose(45.544, 120.447, Math.toRadians(90));
-    Pose thirdSamplePoseLeftSideSample = new Pose(45.544, 127.447, Math.toRadians(90));
+    Pose thirdSamplePoseLeftSideSample = new Pose(45.544, 128.447, Math.toRadians(90));
     Pose goToSubPose1 = new Pose(62, 98, Math.toRadians(-90));
     Pose goToSubPose1_CP = new Pose(62.5, 124, Math.toRadians(-90));
     Pose startPose = initialPoseLeftSideSample;
@@ -381,7 +381,7 @@ public class FourSampleAutoPedro extends OpMode {
                                         new ParallelAction(
                                                 outtakeSlide.high(),
                                                 new SequentialAction(
-                                                        new SleepAction(1.2),
+                                                        new SleepAction(1.0),
                                                         outtakeDump.bucketPosition()
                                                 )
                                         )
@@ -404,7 +404,7 @@ public class FourSampleAutoPedro extends OpMode {
                                         )
                                 )
                         ),
-                        new SleepAction(0.4),
+                        new SleepAction(0.1),
                         intakeSlide.transfer(),
                         new ParallelAction(
                             followSampleToBucket5,
@@ -419,7 +419,7 @@ public class FourSampleAutoPedro extends OpMode {
                                 new ParallelAction(
                                         outtakeSlide.high(),
                                         new SequentialAction(
-                                                new SleepAction(1.2),
+                                                new SleepAction(1.0),
                                                 outtakeDump.bucketPosition()
                                         )
                                 )
@@ -443,22 +443,27 @@ public class FourSampleAutoPedro extends OpMode {
                                         )
                                 )
                         ),
-                        new SleepAction(0.4),
+                        new SleepAction(0.1),
                         intakeSlide.transfer(),
                         new ParallelAction(
                                 followSampleToBucket7,
                                 intakeSpinner.stopPosition(),
-                                intakeWrist.wristTransfer(),
-                                intakeArm.armTransfer(),
                                 new SequentialAction(
-                                        new SleepAction(.5),
+                                        new SleepAction(.2),
+                                        new ParallelAction(
+                                                intakeArm.armTransfer(),
+                                                intakeWrist.wristTransfer()
+                                        )
+                                ),
+                                new SequentialAction(
+                                        new SleepAction(.7),
                                         intakeSpinner.outtakePosition(),
                                         new SleepAction(.3),
                                         intakeSpinner.stopPosition(),
                                         new ParallelAction(
                                                 outtakeSlide.high(),
                                                 new SequentialAction(
-                                                        new SleepAction(1.2),
+                                                        new SleepAction(1.0),
                                                         outtakeDump.bucketPosition()
                                                 )
                                         )

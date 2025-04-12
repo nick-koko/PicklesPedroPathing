@@ -5,6 +5,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.localization.Pose;
@@ -73,7 +74,7 @@ public class FiveSpecimenAutoPedro extends OpMode {
     Pose startPose = initialPoseRightSideSpecimen;
 
     /* These are our Paths and PathChains that we will define in buildPaths() */
-    private PathChain Plebeian1, Goober2, Goober2Returns, OhDip3;
+    private PathChain Plebeian1, Goober2, Goober2Returns, OhDip3, DumbName4, OhDip5, DumbName6,  OhDip7, DumbName8, OhDip9, BackToZone;
 
     OuttakeArmMoverActions outtakeDump = new OuttakeArmMoverActions();
     DualSlideActions outtakeSlide =  new DualSlideActions();
@@ -156,24 +157,24 @@ public class FiveSpecimenAutoPedro extends OpMode {
                         new BezierCurve(
                                 new Point(30.805, 23.140, Point.CARTESIAN),
                                 new Point(54.092, 24.319, Point.CARTESIAN),
-                                new Point(53.060, 16.950, Point.CARTESIAN)
+                                new Point(55.419, 17.982, Point.CARTESIAN)
                         )
                 )
                 .setConstantHeadingInterpolation(Math.toRadians(0))
 
                 .addPath(
                         new BezierCurve(
-                                new Point(53.060, 16.950, Point.CARTESIAN),
-                                new Point(55.124, 10.907, Point.CARTESIAN),
-                                new Point(30.805, 12.970, Point.CARTESIAN)
+                                new Point(55.419, 17.982, Point.CARTESIAN),
+                                new Point(58.956, 11.644, Point.CARTESIAN),
+                                new Point(31.5, 14.149, Point.CARTESIAN)
                         )
                 )
                 .setConstantHeadingInterpolation(Math.toRadians(0))
 
                 .addPath(
                         new BezierCurve(
-                                new Point(30.805, 12.970, Point.CARTESIAN),
-                                new Point(64.852, 13.707, Point.CARTESIAN),
+                                new Point(31.5, 14.149, Point.CARTESIAN),
+                                new Point(64.852, 15.329, Point.CARTESIAN),
                                 new Point(60.135, 7.812, Point.CARTESIAN),
                                 new Point(54.387, 8.549, Point.CARTESIAN)
                         )
@@ -183,24 +184,34 @@ public class FiveSpecimenAutoPedro extends OpMode {
                 .addPath(
                         new BezierLine(
                                 new Point(54.387, 8.549, Point.CARTESIAN),
-                                new Point(30.805, 8.696, Point.CARTESIAN)
+                                new Point(31.5, 8.254, Point.CARTESIAN)
                         )
                 )
                 .setConstantHeadingInterpolation(Math.toRadians(0))
 
+                .addPath(
+                        new BezierCurve(
+                                new Point(31.5, 8.254, Point.CARTESIAN),
+                                new Point(15.771, 6.780, Point.CARTESIAN),
+                                new Point(24.172, 36.111, Point.CARTESIAN),
+                                new Point(19.433, 34.637, Point.CARTESIAN)
+                        )
+                )
+                .setConstantHeadingInterpolation(Math.toRadians(0))
                 .setZeroPowerAccelerationMultiplier(7)
                 .build();
 
         Goober2Returns = follower.pathBuilder()
+
+
                 .addPath(
-                        new BezierCurve(
-                                new Point(30.805, 8.696, Point.CARTESIAN),
-                                new Point(15.771, 6.780, Point.CARTESIAN),
-                                new Point(24.172, 36.111, Point.CARTESIAN),
-                                new Point(10.433, 34.637, Point.CARTESIAN)
+                        new BezierLine(
+                                new Point(19.433, 34.637, Point.CARTESIAN),
+                                new Point(12.033, 34.637, Point.CARTESIAN)
                         )
                 )
-                .setConstantHeadingInterpolation(Math.toRadians(0))
+                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
+
                 .setZeroPowerAccelerationMultiplier(3)
                 .build();
 
@@ -213,8 +224,117 @@ public class FiveSpecimenAutoPedro extends OpMode {
                         )
                 )
                 .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(180))
+                .setZeroPowerAccelerationMultiplier(3.5)
                 .build();
 
+
+        DumbName4 = follower.pathBuilder()
+                .addPath(
+                        new BezierCurve(
+                                new Point(39.000, 72.000, Point.CARTESIAN),
+                                new Point(21.372, 33.310, Point.CARTESIAN),
+                                new Point(19.433, 34.637, Point.CARTESIAN)
+                        )
+                )
+                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(0))
+
+                .addPath(
+                        new BezierLine(
+                                new Point(19.433, 34.637, Point.CARTESIAN),
+                                new Point(12.033, 34.637, Point.CARTESIAN)
+                        )
+                )
+                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
+                .setZeroPowerAccelerationMultiplier(3)
+                .build();
+        OhDip5 = follower.pathBuilder()
+                .addPath(
+                        new BezierCurve(
+                                new Point(10.433, 34.637, Point.CARTESIAN),
+                                new Point(22.5, 70.9, Point.CARTESIAN),
+                                new Point(39.0, 72, Point.CARTESIAN)
+                        )
+                )
+                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(180))
+                .setZeroPowerAccelerationMultiplier(3.5)
+                .build();
+
+
+        DumbName6 = follower.pathBuilder()
+                .addPath(
+                        new BezierCurve(
+                                new Point(39.000, 72.000, Point.CARTESIAN),
+                                new Point(21.372, 33.310, Point.CARTESIAN),
+                                new Point(19.433, 34.637, Point.CARTESIAN)
+                        )
+                )
+                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(0))
+
+                .addPath(
+                        new BezierLine(
+                                new Point(19.433, 34.637, Point.CARTESIAN),
+                                new Point(12.033, 34.637, Point.CARTESIAN)
+                        )
+                )
+                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
+                .setZeroPowerAccelerationMultiplier(3)
+                .build();
+        OhDip7 = follower.pathBuilder()
+                .addPath(
+                        new BezierCurve(
+                                new Point(10.433, 34.637, Point.CARTESIAN),
+                                new Point(22.5, 70.9, Point.CARTESIAN),
+                                new Point(39.0, 72, Point.CARTESIAN)
+                        )
+                )
+                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(180))
+                .setZeroPowerAccelerationMultiplier(3.5)
+                .build();
+
+
+        DumbName8 = follower.pathBuilder()
+                .addPath(
+                        new BezierCurve(
+                                new Point(39.000, 72.000, Point.CARTESIAN),
+                                new Point(21.372, 33.310, Point.CARTESIAN),
+                                new Point(19.433, 34.637, Point.CARTESIAN)
+                        )
+                )
+                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(0))
+
+                .addPath(
+                        new BezierLine(
+                                new Point(19.433, 34.637, Point.CARTESIAN),
+                                new Point(12.033, 34.637, Point.CARTESIAN)
+                        )
+                )
+                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
+                .setZeroPowerAccelerationMultiplier(3)
+                .build();
+        OhDip9 = follower.pathBuilder()
+                .addPath(
+                        new BezierCurve(
+                                new Point(10.433, 34.637, Point.CARTESIAN),
+                                new Point(22.5, 70.9, Point.CARTESIAN),
+                                new Point(39.0, 72, Point.CARTESIAN)
+                        )
+                )
+                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(180))
+                .setZeroPowerAccelerationMultiplier(3.5)
+                .build();
+
+
+        BackToZone = follower.pathBuilder()
+                .addPath(
+                        new BezierCurve(
+                                new Point(39.000, 72.000, Point.CARTESIAN),
+                                new Point(17.834, 47.312, Point.CARTESIAN),
+                                new Point(12.823, 28.299, Point.CARTESIAN)
+                        )
+                )
+                .setConstantHeadingInterpolation(Math.toRadians(180))
+                .setZeroPowerAccelerationMultiplier(7)
+                .build();
     }
 
 
@@ -287,28 +407,92 @@ public class FiveSpecimenAutoPedro extends OpMode {
         FollowPathActions followGoober2Path = new FollowPathActions(Goober2, follower, false, telemetryA);
         FollowPathActions followGoober2ReturnsPath = new FollowPathActions(Goober2Returns, follower, false, telemetryA);
         FollowPathActions followOhDip3Path = new FollowPathActions(OhDip3, follower, true, telemetryA);
+        FollowPathActions followDumbName4Path = new FollowPathActions(DumbName4, follower, false, telemetryA);
+        FollowPathActions followOhDip5Path = new FollowPathActions(OhDip5, follower, true, telemetryA);
+        FollowPathActions followDumbName6Path = new FollowPathActions(DumbName6, follower, false, telemetryA);
+        FollowPathActions followOhDip7Path = new FollowPathActions(OhDip7, follower, true, telemetryA);
+        FollowPathActions followDumbName8Path = new FollowPathActions(DumbName8, follower, false, telemetryA);
+        FollowPathActions followOhDip9Path = new FollowPathActions(OhDip9, follower, true, telemetryA);
+        FollowPathActions followBackToZonePath = new FollowPathActions(BackToZone, follower, false, telemetryA);
 
         Actions.runBlocking(
                 new SequentialAction(
                         new ParallelAction(
-                                followPlebian1Path,
+                                followPlebian1Path,         //Drive to bar to drop First Specimen
                                 outtakeSlide.specimenDrop(),
                                 intakeArm.armTransfer()
                         ),
                         //outtakeClaw.dropPosition(),
                         outtakeClaw.dropPosition(),
-                        outtakeSlide.specimenDropDown(),
-                        outtakeClaw.open(),
-                        followGoober2Path,
-                        followGoober2ReturnsPath, //😎👌👌👌 ༼ つ ◕_◕ ༽つ
+                        outtakeSlide.specimenDropDown(),    //Place first specimen
+                        new ParallelAction(
+                                followGoober2Path,          //Push in samples
+                                new SequentialAction(
+                                        new SleepAction(.1),
+                                        outtakeClaw.open()
+                                )
+                        ),
+                        followGoober2ReturnsPath, //😎👌👌👌 ༼ つ ◕_◕ ༽つ //Drive to pickup second spec
                         outtakeClaw.close(),
                         outtakeSlide.extendAction(),
                         new ParallelAction(
-                                followOhDip3Path,
+                                followOhDip3Path,           //Drive to drop 2nd Spec
                                 outtakeSlide.specimenDrop(),
                                 outtakeClaw.dropPosition()
                         ),
-                        outtakeSlide.specimenDropDown()
+                        outtakeSlide.specimenDropDown(),    //Place 2nd Specimen
+                        new ParallelAction(
+                                followDumbName4Path,        //Drive to get 3rd Spec
+                                new SequentialAction(
+                                        new SleepAction(.1),
+                                        outtakeClaw.open()
+                                )
+                        ),
+                        outtakeClaw.close(),
+                        outtakeSlide.extendAction(),
+                        new ParallelAction(
+                                followOhDip5Path,           //Drive to place 3rd Spec
+                                outtakeSlide.specimenDrop(),
+                                outtakeClaw.dropPosition()
+                        ),
+                        outtakeSlide.specimenDropDown(),    //Place 3rd specimen
+                        new ParallelAction(
+                                followDumbName6Path,        //Drive to get 4th specimen
+                                new SequentialAction(
+                                        new SleepAction(.1),
+                                        outtakeClaw.open()
+                                )
+                        ),
+                        outtakeClaw.close(),
+                        outtakeSlide.extendAction(),
+                        new ParallelAction(
+                                followOhDip7Path,
+                                outtakeSlide.specimenDrop(),
+                                outtakeClaw.dropPosition()
+                        ),
+                        outtakeSlide.specimenDropDown(),
+                        new ParallelAction(
+                                followDumbName8Path,
+                                new SequentialAction(
+                                        new SleepAction(.1),
+                                        outtakeClaw.open()
+                                )
+                        ),
+                        outtakeClaw.close(),
+                        outtakeSlide.extendAction(),
+                        new ParallelAction(
+                                followOhDip9Path,
+                                outtakeSlide.specimenDrop(),
+                                outtakeClaw.dropPosition()
+                        ),
+                        outtakeSlide.specimenDropDown(),
+                        new ParallelAction(
+                                followBackToZonePath,
+                                new SequentialAction(
+                                        new SleepAction(.1),
+                                        outtakeClaw.open()
+                                )
+                        )
                 )
         );
 

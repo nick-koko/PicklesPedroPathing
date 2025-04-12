@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.actions.IntakeSlideAction;
+
 public class IntakeSlide {
     // Assuming some motor control library is used, e.g., FTC SDK, but this can be customized
     private DcMotor slideMotor;
@@ -105,19 +107,26 @@ public class IntakeSlide {
         this.slideMotor.setPower(0.8);
 
     }
-
     public SLIDE_STATES getSlideState() {
         int slidePos = this.slideMotor.getCurrentPosition();
-        if (Math.abs(slidePos - TRANSFER_POSITION) < (15)) {
-            curSlideState = SLIDE_STATES.SLIDE_TRANSFER_POS;
-        }
-        else if(slidePos > TRANSFER_POSITION) {
+        if ((curSlideState == SLIDE_STATES.SLIDE_TRANSFER_POS) && (slidePos > 25)) {
             curSlideState = SLIDE_STATES.SLIDE_INTAKE_POS;
-        } else {
+        } else if ((curSlideState == SLIDE_STATES.SLIDE_INTAKE_POS) && (slidePos < 15)) {
             curSlideState = SLIDE_STATES.SLIDE_TRANSFER_POS;
         }
         return curSlideState;
     }
+//    public SLIDE_STATES getSlideState()
+//        if (Math.abs(slidePos - TRANSFER_POSITION) < (15)) {
+//            curSlideState = SLIDE_STATES.SLIDE_TRANSFER_POS;
+//        }
+//        else if (slidePos > TRANSFER_POSITION) {
+//            curSlideState = SLIDE_STATES.SLIDE_INTAKE_POS;
+//        } else {
+//            curSlideState = SLIDE_STATES.SLIDE_TRANSFER_POS;
+//        }
+//        return curSlideState;
+//    }
 
     public int getSlideMotorPos() {
         return this.slideMotor.getCurrentPosition();

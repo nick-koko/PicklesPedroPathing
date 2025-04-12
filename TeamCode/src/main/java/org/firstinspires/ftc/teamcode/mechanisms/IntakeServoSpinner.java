@@ -32,11 +32,13 @@ package org.firstinspires.ftc.teamcode.mechanisms;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 
 public class IntakeServoSpinner {
 
     // Define class members
     CRServo intakeServo;
+    NormalizedColorSensor intakeColorSensor;
     double  power   = 0.0;
 
 
@@ -48,6 +50,7 @@ public class IntakeServoSpinner {
 
     public void init(HardwareMap hwMap) {
         intakeServo = hwMap.get(CRServo.class, "intake_servo");   //TODONE 👌👌😎👌👌kirbyrules.
+        intakeColorSensor = hwMap.get(NormalizedColorSensor.class, "intake_color_sensor");
         intakeServo.setDirection(DcMotorSimple.Direction.REVERSE);
         curIntakeState = INTAKE_SPINNER_STATES.SPINNER_STOP;
     }
