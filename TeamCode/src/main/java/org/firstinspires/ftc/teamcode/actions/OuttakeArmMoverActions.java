@@ -17,7 +17,7 @@ public class OuttakeArmMoverActions extends OuttakeArmMoverMechanism {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             if (!initialized) {
-                armMoverBucketPosition();  //RIP driv, in our hearTs f0rever
+                armMoverBucketAutonPosition();  //RIP driv, in our hearTs f0rever
                 initialized = true;
                 return true;
             }
@@ -28,6 +28,22 @@ public class OuttakeArmMoverActions extends OuttakeArmMoverMechanism {
         return new BucketPosition();
     }
 
+    public class BucketEndPosition implements Action {
+        private boolean initialized = false;
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            if (!initialized) {
+                armMoverBucketPosition();  //RIP driv, in our hearTs f0rever
+                initialized = true;
+                return true;
+            }
+            return false;
+        }
+    }
+    public Action bucketEndPosition() {
+        return new BucketEndPosition();
+    }
     public class DownPosition implements Action {
         private boolean initialized = false;
 

@@ -14,6 +14,8 @@ public class OuttakeArmMoverMechanism {
     public static double TRANSFER_POSITION = .83;
     public static double BUCKET_POSITION = .24;
     public static double SPECIMINE_GRAB_POSITION = 1;
+    public static double BUCKET_AUTON_POSITION = .30;
+
     public static double SPECIMINE_HANG_POSITION = 1;
     public enum ARMMOVER_STATES{
         ARMMOVER_DRIVE_POS, ARMMOVER_TRANSFER_POS, ARMMOVER_BUCKET_POS, ARMMOVER_SPECIMINE_GRAB_POS, ARMMOVER_SPECIMINE_HANG_POS
@@ -51,6 +53,15 @@ public class OuttakeArmMoverMechanism {
     public void armMoverBucketPosition() {
 
         armMoverServo.setPosition(BUCKET_POSITION);
+        if (curARMMOVERState != ARMMOVER_STATES.ARMMOVER_BUCKET_POS) {
+            armMoverTimer.reset();
+            stateDelayTime = 0.5;
+            nextARMMOVERState = ARMMOVER_STATES.ARMMOVER_BUCKET_POS;
+        }
+    }
+    public void armMoverBucketAutonPosition() {
+
+        armMoverServo.setPosition(BUCKET_AUTON_POSITION);
         if (curARMMOVERState != ARMMOVER_STATES.ARMMOVER_BUCKET_POS) {
             armMoverTimer.reset();
             stateDelayTime = 0.5;

@@ -12,6 +12,7 @@ public class IntakeArm {
     // Target positions for the servo arm
     public static double INTAKE_POSITION = .85; //above group... will kill power .245
     public static double PULL_INTAKE_POSITION = 0.73;
+    public static double AUTON_PULL_INTAKE_POSITION = 0.715;
     static double INTAKE_TELEOP_POSITION = 0.211;
    public static double DRIVE_POSITION = .04; //perpindicuar .8
    public static double TRANSFER_POSITION = 0.23; //servo towards slides .88
@@ -45,6 +46,11 @@ public class IntakeArm {
     // Method to move the arm to the intake position
     public void armPositionPullIntake() {
         intakeArmServo.setPosition(PULL_INTAKE_POSITION);
+        curARMState = INTAKE_ARM_STATES.INTAKE_ARM_INTAKE_POS;
+        nextARMState = INTAKE_ARM_STATES.INTAKE_ARM_INTAKE_POS;
+    }
+    public void armPositionAutonPullIntake() {
+        intakeArmServo.setPosition(AUTON_PULL_INTAKE_POSITION);
         curARMState = INTAKE_ARM_STATES.INTAKE_ARM_INTAKE_POS;
         nextARMState = INTAKE_ARM_STATES.INTAKE_ARM_INTAKE_POS;
     }

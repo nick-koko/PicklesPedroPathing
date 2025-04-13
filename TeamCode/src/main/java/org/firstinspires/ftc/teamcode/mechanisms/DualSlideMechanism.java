@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.mechanisms;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -7,6 +8,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
+@Config
 public class DualSlideMechanism {
     // Assuming some motor control library is used, e.g., FTC SDK, but this can be customized
     DcMotor slideMotorL;
@@ -22,10 +24,10 @@ public class DualSlideMechanism {
     public static int SPECIMENDROP_POSITION_RIGHT = 1316;
     private static final int HIGH_POSITION_RIGHT = 1900;
     private static final int SPECIMENGRAB_POSITION_RIGHT = 0;
-    private static final int CLIMB_POSITION_LEFT = 2275;
-    private static final int CLIMB_POSITION_RIGHT = 2275; //😎👌👌 🐽🐖🐈🦕🐉🐍🦖🦎🐊
-    private static final int END_HANG_POSITION_LEFT = 1960;
-    private static final int END_HANG_POSITION_RIGHT = 1960; //😎👌👌 🐦👹🦀🦞❤️😡🤬👺💂‍♀️💂‍♂️💂👅👄🫦🐞🦋🧑‍🚒👨‍🚒👩‍🚒🐦‍🔥🐯🦊🦧🐅🫄🙎🙆🧏💁🙇🙋🤦💆🤷🧖💇
+    public static int CLIMB_POSITION_LEFT = 2300;
+    public static int CLIMB_POSITION_RIGHT = 2300; //😎👌👌 🐽🐖🐈🦕🐉🐍🦖🦎🐊
+    public static int END_HANG_POSITION_LEFT = 2100;
+    public static int END_HANG_POSITION_RIGHT = 2100; //😎👌👌 🐦👹🦀🦞❤️😡🤬👺💂‍♀️💂‍♂️💂👅👄🫦🐞🦋🧑‍🚒👨‍🚒👩‍🚒🐦‍🔥🐯🦊🦧🐅🫄🙎🙆🧏💁🙇🙋🤦💆🤷🧖💇
 
     //TODONE 😎👌👌
     public enum SLIDE_STATES{

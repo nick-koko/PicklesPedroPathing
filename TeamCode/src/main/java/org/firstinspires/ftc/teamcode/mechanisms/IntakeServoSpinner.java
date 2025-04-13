@@ -29,10 +29,16 @@
 
 package org.firstinspires.ftc.teamcode.mechanisms;
 
+import android.graphics.Color;
+
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
+import com.qualcomm.robotcore.hardware.NormalizedRGBA;
+
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class IntakeServoSpinner {
 
@@ -40,6 +46,8 @@ public class IntakeServoSpinner {
     CRServo intakeServo;
     NormalizedColorSensor intakeColorSensor;
     double  power   = 0.0;
+    float gain = 10;
+    final float[] hsvValues = new float[3];
 
 
     public enum INTAKE_SPINNER_STATES{
@@ -53,6 +61,7 @@ public class IntakeServoSpinner {
         intakeColorSensor = hwMap.get(NormalizedColorSensor.class, "intake_color_sensor");
         intakeServo.setDirection(DcMotorSimple.Direction.REVERSE);
         curIntakeState = INTAKE_SPINNER_STATES.SPINNER_STOP;
+        intakeColorSensor.setGain(gain);
     }
 
     public void Intake() {
@@ -62,7 +71,6 @@ public class IntakeServoSpinner {
         intakeServo.setPower(power);
 
         curIntakeState = INTAKE_SPINNER_STATES.SPINNER_INTAKING;
-
     }
 
     public void Outtake() {
@@ -89,6 +97,38 @@ public class IntakeServoSpinner {
     }
     public INTAKE_SPINNER_STATES getIntakeState() {
         return curIntakeState;
+    }
+    public int getIntakeColors() {  //Colors!!!
+        // 0 = Blue 1 = Undefined 2 = Red
+        int returnIntColor;
+        float intakeHue;
+
+        NormalizedRGBA colors = intakeColorSensor.getNormalizedColors();
+        Color.colorToHSV(colors.toColor(), hsvValues);
+
+        intakeHue = hsvValues[0];
+
+        if (intakeHue < 45.0) {
+            returnIntColor = 2;
+        } else if (intakeHue > 200) {
+            returnIntColor = 0;
+        } else {
+            returnIntColor = 1;
+        }
+
+        return returnIntColor;
+    }
+
+    public boolean sampleGrabbed() {  //Distance!!!
+
+        double intakeDistance;
+
+        intakeDistance = ((DistanceSensor) intakeColorSensor).getDistance(DistanceUnit.CM);
+        if (intakeDistance < 2.5) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

@@ -32,6 +32,51 @@ public class IntakeSlideAction extends IntakeSlide {
         return new Transfer();
     }
 
+    public class RetractIgnorePosition implements Action {
+        private boolean initialized = false;
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            if (!initialized) {
+                retractSlideIgnoreEncoderPosition(-0.2);
+                initialized = true;
+            }
+
+            SLIDE_STATES state = getSlideState();
+            packet.put("IntakeSlidestate", state);
+            if (state == SLIDE_STATES.SLIDE_TRANSFER_POS) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
+    public Action retractIgnorePosition() {
+        return new RetractIgnorePosition();
+    }
+    public class TransferFromSub implements Action {
+        private boolean initialized = false;
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            if (!initialized) {
+                retractSlide(-.5);
+                initialized = true;
+            }
+
+            SLIDE_STATES state = getSlideState();
+            packet.put("IntakeSlidestate", state);
+            if (state == SLIDE_STATES.SLIDE_TRANSFER_POS) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
+    public Action transferFromSub() {
+        return new TransferFromSub();
+    }
+
     public class ResetEncoders implements Action {
         private boolean initialized = false;
 
@@ -106,6 +151,28 @@ public class IntakeSlideAction extends IntakeSlide {
                 initialized = true;
             }
             return false;
+
+        }
+    }
+
+    public Action extendIntoSubIntakeSlide() {
+        return new ExtendIntoSubSlide();
+    }
+    public class ExtendIntoSubSlide implements Action {
+        private boolean initialized = false;
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            if (!initialized) {
+                extendSlide(0.35);
+                initialized = true;
+            }
+            if (getSlideMotorPos() > (TOP_POSITION - 20)) {
+                stopSlide();
+                return false;
+            } else {
+                return true;
+            }
 
         }
     }

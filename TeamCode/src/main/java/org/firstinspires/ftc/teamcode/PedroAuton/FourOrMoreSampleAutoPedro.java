@@ -26,7 +26,6 @@ import org.firstinspires.ftc.teamcode.actions.IntakeWristActions;
 import org.firstinspires.ftc.teamcode.actions.IntakeservoSpinnerActions;
 import org.firstinspires.ftc.teamcode.actions.OuttakeArmMoverActions;
 import org.firstinspires.ftc.teamcode.mechanisms.ClimbingHooks;
-import org.firstinspires.ftc.teamcode.mechanisms.IntakeWrist;
 
 import pedroPathing.constants.FConstants;
 import pedroPathing.constants.LConstants;
@@ -41,8 +40,8 @@ import pedroPathing.constants.LConstants;
  * @version 2.0, 11/28/2024
  */
 
-@Autonomous(name = "Four Sample Auton Pedro Test")
-public class FourSampleAutoPedro extends OpMode {
+@Autonomous(name = "Four or More Sample Auton Pedro Test")
+public class FourOrMoreSampleAutoPedro extends OpMode {
 
     private Follower follower;
     private Telemetry telemetryA;
@@ -71,14 +70,17 @@ public class FourSampleAutoPedro extends OpMode {
     Pose firstSamplePoseLeftSideSample2 = new Pose(45.544, 107.447, Math.toRadians(90));
     Pose secondSamplePoseLeftSideSample = new Pose(45.544, 120.447, Math.toRadians(90));
     Pose thirdSamplePoseLeftSideSample = new Pose(45.2, 128.447, Math.toRadians(90));
-    Pose goToSubPose1 = new Pose(62, 98, Math.toRadians(-90));
+    Pose goToSubPose1 = new Pose(62, 92, Math.toRadians(-90));
+    Pose goToSubNoSampleSpin = new Pose(62, 110, Math.toRadians(90));
+    Pose goToSubPoseEND = new Pose(62, 92, Math.toRadians(90));
+
     Pose goToSubPose1_CP = new Pose(62.5, 124, Math.toRadians(-90));
     Pose startPose = initialPoseLeftSideSample;
 
     /* These are our Paths and PathChains that we will define in buildPaths() */
-    private PathChain StartToBucket1, BucketToSample2, StopAtSample, SampleToBucket3, BucketToSample4, SampleToBucket5, BucketToSample6, SampleToBucket7, GotoSub8;
+    private PathChain StartToBucket1, BucketToSample2, StopAtSample, SampleToBucket3, BucketToSample4, SampleToBucket5, BucketToSample6, SampleToBucket7, GotoSub8, BucketToSub10, SubToBucket9, EndSpin;
     private PathChain StartToBucketUseCallbacks1, BucketToSampleUseCallbacks2, SampleToBucketUseCallbacks3;
-
+    COLOR TeamColor = COLOR.BLUE;
     OuttakeArmMoverActions outtakeDump = new OuttakeArmMoverActions();
     DualSlideActions outtakeSlide =  new DualSlideActions();
     ClawActions outtakeClaw = new ClawActions();
@@ -87,6 +89,7 @@ public class FourSampleAutoPedro extends OpMode {
     IntakeservoSpinnerActions intakeSpinner = new IntakeservoSpinnerActions();
     IntakeWristActions intakeWrist = new IntakeWristActions();
     ClimbingHooks climbingServo = new ClimbingHooks();
+
 
 
     /** Build the paths for the auto (adds, for example, constant/linear headings while doing paths)
@@ -238,12 +241,35 @@ public class FourSampleAutoPedro extends OpMode {
         SampleToBucket7 = follower.pathBuilder()
                 .addPath(
                         // Line 2
-                        new BezierLine(
+                        new BezierCurve(
                                 new Point(thirdSamplePoseLeftSideSample),
-                                new Point(19.066, 123.166, Point.CARTESIAN)
+                                new Point(49.081, 117.322, Point.CARTESIAN),
+                                new Point(36.405, 117.912, Point.CARTESIAN)
                         )
                 )
                 .setLinearHeadingInterpolation(thirdSamplePoseLeftSideSample.getHeading(), dumpPoseLeftSideFromSamples3.getHeading())
+
+                .addPath(
+                        // Line 3
+                        new BezierLine(
+                                new Point(36.405, 117.912, Point.CARTESIAN),
+                                new Point(dumpPoseLeftSideFromSamples3)
+                        )
+                )
+                .setConstantHeadingInterpolation(dumpPoseLeftSideFromSamples3.getHeading())
+                .setZeroPowerAccelerationMultiplier(3.5)
+                .build();
+
+        SubToBucket9 = follower.pathBuilder()
+                .addPath(
+                        // Line 2
+                        new BezierCurve(
+                                new Point(goToSubPose1),
+                                new Point(61.314, 118.207, Point.CARTESIAN),
+                                new Point(19.066, 123.166, Point.CARTESIAN)
+                        )
+                )
+                .setLinearHeadingInterpolation(goToSubPose1.getHeading(), dumpPoseLeftSideFromSamples3.getHeading())
 
                 .addPath(
                         // Line 3
@@ -268,6 +294,40 @@ public class FourSampleAutoPedro extends OpMode {
                 .setLinearHeadingInterpolation(dumpPoseLeftSideFromSamples.getHeading(), goToSubPose1.getHeading())
                 .setZeroPowerAccelerationMultiplier(5)
                 .build();
+
+        BucketToSub10 = follower.pathBuilder()
+                .addPath(
+                        // Line 3
+                        new BezierCurve(
+                                new Point(dumpPoseLeftSideFromSamples),
+                                new Point(goToSubPose1_CP),
+                                new Point(goToSubPoseEND)
+                        )
+                )
+                .setLinearHeadingInterpolation(dumpPoseLeftSideFromSamples.getHeading(), goToSubPoseEND.getHeading())
+                .setZeroPowerAccelerationMultiplier(3)
+                .build();
+
+        EndSpin = follower.pathBuilder()
+                .addPath(
+                        new BezierLine(
+                                new Point(goToSubPose1),
+                                new Point(goToSubNoSampleSpin)
+                        )
+                )
+                .setLinearHeadingInterpolation(goToSubPose1.getHeading(), goToSubPoseEND.getHeading())
+
+                .addPath(
+                        new BezierLine(
+                                new Point(goToSubNoSampleSpin),
+                                new Point(goToSubPoseEND)
+                        )
+                )
+                .setConstantHeadingInterpolation(goToSubPoseEND.getHeading())
+
+                .setZeroPowerAccelerationMultiplier(3)
+                .build();
+
         // The following use callbacks to schedule things
         StartToBucketUseCallbacks1 = follower.pathBuilder()
                 .addPath(
@@ -341,6 +401,12 @@ public class FourSampleAutoPedro extends OpMode {
         climbingServo.hookPositionDown();
         globalRobotDataPedro.hasAutonRun = true;
 
+        if (gamepad1.x) {
+            TeamColor = COLOR.BLUE;
+        } else if (gamepad1.b) {
+            TeamColor = COLOR.RED;
+        }
+
     }
 
     /** This method is called continuously after Init while waiting for "play". **/
@@ -361,7 +427,10 @@ public class FourSampleAutoPedro extends OpMode {
         FollowPathActions followSampleToBucket5 = new FollowPathActions(SampleToBucket5, follower, true, telemetryA);
         FollowPathActions followBucketToSample6 = new FollowPathActions(BucketToSample6, follower, true, telemetryA);
         FollowPathActions followSampleToBucket7 = new FollowPathActions(SampleToBucket7, follower, true, telemetryA);
-        FollowPathActions followBucketToSub8 = new FollowPathActions(GotoSub8, follower, false, telemetryA);
+        FollowPathActions followBucketToSub8 = new FollowPathActions(GotoSub8, follower, true, telemetryA);
+        FollowPathActions followSubToBucket9 = new FollowPathActions(SubToBucket9, follower, true, telemetryA);
+        FollowPathActions followBucketToSub10 = new FollowPathActions(BucketToSub10, follower, false, telemetryA);
+        FollowPathActions followEndSpin11 = new FollowPathActions(EndSpin, follower, false, telemetryA);
 
         Actions.runBlocking(
                 new SequentialAction(
@@ -404,6 +473,7 @@ public class FourSampleAutoPedro extends OpMode {
                                 intakeWrist.wristTransfer(),
                                 intakeArm.armTransfer(),
                                 new SequentialAction(
+                                        intakeSlide.retractIgnorePosition(),
                                         new SleepAction(.5),
                                         intakeSpinner.outtakePosition(),
                                         new SleepAction(.3),
@@ -442,6 +512,7 @@ public class FourSampleAutoPedro extends OpMode {
                             intakeWrist.wristTransfer(),
                             intakeArm.armTransfer(),
                             new SequentialAction(
+                                intakeSlide.retractIgnorePosition(),
                                 new SleepAction(.5),
                                 intakeSpinner.outtakePosition(),
                                 new SleepAction(.3),
@@ -481,14 +552,16 @@ public class FourSampleAutoPedro extends OpMode {
                                 new SequentialAction(
                                         new SleepAction(.2),
                                         new ParallelAction(
+                                                intakeSlide.transfer(),
                                                 intakeArm.armTransfer(),
                                                 intakeWrist.wristTransfer()
                                         )
                                 ),
                                 new SequentialAction(
-                                        new SleepAction(.7),
+                                        intakeSlide.retractIgnorePosition(),
+                                        new SleepAction(1.0),
                                         intakeSpinner.outtakePosition(),
-                                        new SleepAction(.3),
+                                        new SleepAction(.5),
                                         intakeSpinner.stopPosition(),
                                         new ParallelAction(
                                                 outtakeSlide.high(),
@@ -509,10 +582,140 @@ public class FourSampleAutoPedro extends OpMode {
                                         outtakeSlide.low()
                                 )
                                 //😎👌👌👌 ༼ つ ◕_◕ ༽つ
+                        ),
+                        new ParallelAction(
+                            intakeSpinner.intakePosition(),
+                            intakeWrist.wristIntakePush(),
+                            intakeArm.armIntakePush()
+                        ),
+                        new SequentialAction(
+                                new SleepAction(.5),
+                                intakeSlide.extendIntoSubIntakeSlide()
+                                //new SleepAction(1)
                         )
 
                 )
-        );
+        ); // end of ARB
+        boolean didNotGetOne = true;
+        int teamIntColor = 2;
+        if (TeamColor == COLOR.RED) {
+            teamIntColor = 2;
+        } else if (TeamColor == COLOR.BLUE) {
+            teamIntColor = 0;
+        }
+
+
+        if (intakeSpinner.sampleGrabbed()) { //Get one? 😎👌👌
+            if ((intakeSpinner.getIntakeColors() == teamIntColor) || (intakeSpinner.getIntakeColors() == 1)) {
+                didNotGetOne = false;
+            } else {
+                Actions.runBlocking(
+                        new SequentialAction(
+                                intakeSpinner.outtakePosition(),
+                                new SleepAction(.3)
+                        )
+                );
+            }
+        }
+        if (didNotGetOne) {
+            Actions.runBlocking(
+                    new SequentialAction(
+                        new ParallelAction(
+                                intakeSpinner.intakePosition(),
+                                intakeWrist.wristIntakePull(),
+                                intakeArm.armIntakePull()
+                        ),
+                        new SequentialAction(
+                                new SleepAction(0.3),
+                                intakeSlide.transferFromSub(),
+                                new SleepAction(0.3)
+                        )
+                    )
+            );
+            if (intakeSpinner.sampleGrabbed()) { //Get one? 😎👌👌
+                if ((intakeSpinner.getIntakeColors() == teamIntColor) || (intakeSpinner.getIntakeColors() == 1)) {
+                    didNotGetOne = false;
+                } else {
+                    Actions.runBlocking(
+                            new SequentialAction(
+                                    intakeSpinner.outtakePosition(),
+                                    new SleepAction(.3)
+                            )
+                    );
+                }
+            }
+        }
+
+        if (!didNotGetOne) {
+            Actions.runBlocking( //To Bucket
+                new SequentialAction(
+                    intakeSlide.transfer(),
+                    intakeSpinner.stopPosition(),
+                    new ParallelAction(
+                            intakeArm.armTransfer(),
+                            intakeWrist.wristTransfer()
+                    ),
+                    new ParallelAction(
+                            new SequentialAction(
+                                    new SleepAction(.2),
+                                    followSubToBucket9 /// /// change to from sub to bucket
+                            ),
+                            new SequentialAction(
+                                    intakeSlide.retractIgnorePosition(),
+                                    new SleepAction(.7),
+                                    intakeSpinner.outtakePosition(),
+                                    new SleepAction(.3),
+                                    intakeSpinner.stopPosition(),
+                                    new ParallelAction(
+                                            outtakeSlide.high(),
+                                            new SequentialAction(
+                                                    new SleepAction(1.5),
+                                                    outtakeDump.bucketPosition()    //forth sample in bucket
+                                            )
+                                    )
+                            )
+                    ),
+                    new SleepAction(0.5),
+                    new ParallelAction(
+
+                            followBucketToSub10,
+                            outtakeDump.downPosition(),
+                            new SequentialAction(
+                                    new SleepAction(0.1),
+                                    outtakeSlide.low()
+                            ),
+                            new SequentialAction(
+                                    new SleepAction(0.5),
+                                    outtakeDump.bucketEndPosition()
+                            )
+                            //outtakeClaw.close()
+                            //😎👌👌👌 ༼ つ ◕_◕ ༽つ
+                    ),
+                    outtakeSlide.stopOuttakeSlide()
+                )
+
+            );
+        } else {
+            Actions.runBlocking( //Touch Bar
+                    new SequentialAction(
+                    new ParallelAction(
+                            intakeArm.armTransfer(),
+                            intakeWrist.wristTransfer(),
+                            intakeSpinner.stopPosition()/*,
+                            outtakeClaw.close(),
+                            outtakeSlide.endAutonPos(),
+                            outtakeSlide.stopOuttakeSlide() */
+                    ),
+                    new ParallelAction(
+                            followEndSpin11,
+                            new SequentialAction(
+                                    new SleepAction(0.2),
+                                    outtakeDump.bucketEndPosition()
+                            )
+                    ))
+            );
+            intakeSlide.transfer();
+        }
 
         globalRobotDataPedro.autonPose = follower.getPose();
 
@@ -521,6 +724,10 @@ public class FourSampleAutoPedro extends OpMode {
     /** We do not use this because everything should automatically disable **/
     @Override
     public void stop() {
+    }
+    public enum COLOR {
+        RED,
+        BLUE
     }
 }
 

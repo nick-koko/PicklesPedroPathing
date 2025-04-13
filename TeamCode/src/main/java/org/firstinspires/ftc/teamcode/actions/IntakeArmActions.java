@@ -68,7 +68,7 @@ public class IntakeArmActions extends IntakeArm {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             if (!initialized) {
-                armPositionPullIntake();
+                armPositionAutonPullIntake();
                 initialized = true;
                 return true;
             }

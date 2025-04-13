@@ -12,11 +12,11 @@ public class IntakeSlide {
 
     // Target positions for the slide mechanism
     protected static final int AUTON_POSITION = 150;
-    private static final int TOP_POSITION = 481;
+    public static int TOP_POSITION = 481;
     private static final int STARTING_POSITION = 0;
     private static final int TRANSFER_POSITION = 0;
     public enum SLIDE_STATES{
-        SLIDE_INTAKE_POS, SLIDE_STARTING_POS, SLIDE_AUTON_POS, SLIDE_TRANSFER_POS
+        SLIDE_INTAKE_POS, SLIDE_STARTING_POS, SLIDE_AUTON_POS, SLIDE_TRANSFER_POS, SLIDE_MAX_POS
     }
 
     private SLIDE_STATES curSlideState = null;
@@ -69,6 +69,7 @@ public class IntakeSlide {
             this.slideMotor.setPower(0.0);
         }
     }
+
 
     public void retractSlideIgnoreEncoderPosition(double power) {
         // Set the motor power to a negative value to retract the slide

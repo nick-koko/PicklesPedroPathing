@@ -40,8 +40,8 @@ import pedroPathing.constants.LConstants;
  * @version 2.0, 11/28/2024
  */
 @Config
-@Autonomous(name = "Five Specimen Auton Pedro Test")
-public class FiveSpecimenAutoPedro extends OpMode {
+@Autonomous(name = "TESTFTCDASHFive Specimen Auton Pedro Test")
+public class TestFTCDashFiveSpecimenAutoPedro extends OpMode {
 
     private Follower follower;
     private Telemetry telemetryA;
@@ -206,7 +206,7 @@ public class FiveSpecimenAutoPedro extends OpMode {
                 .addPath(
                         new BezierLine(
                                 new Point(19.433, 34.637, Point.CARTESIAN),
-                                new Point(11.033, 34.637, Point.CARTESIAN)
+                                new Point(12.033, 34.637, Point.CARTESIAN)
                         )
                 )
                 .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
@@ -240,7 +240,7 @@ public class FiveSpecimenAutoPedro extends OpMode {
                 .addPath(
                         new BezierLine(
                                 new Point(19.433, 34.637, Point.CARTESIAN),
-                                new Point(11.033, 34.637, Point.CARTESIAN)
+                                new Point(12.033, 34.637, Point.CARTESIAN)
                         )
                 )
                 .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
@@ -251,7 +251,7 @@ public class FiveSpecimenAutoPedro extends OpMode {
                         new BezierCurve(
                                 new Point(10.433, 34.637, Point.CARTESIAN),
                                 new Point(22.5, 70.9, Point.CARTESIAN),
-                                new Point(39.0, 71, Point.CARTESIAN)
+                                new Point(39.0, 72, Point.CARTESIAN)
                         )
                 )
                 .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(180))
@@ -272,7 +272,7 @@ public class FiveSpecimenAutoPedro extends OpMode {
                 .addPath(
                         new BezierLine(
                                 new Point(19.433, 34.637, Point.CARTESIAN),
-                                new Point(11.033, 34.637, Point.CARTESIAN)
+                                new Point(12.033, 34.637, Point.CARTESIAN)
                         )
                 )
                 .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
@@ -283,7 +283,7 @@ public class FiveSpecimenAutoPedro extends OpMode {
                         new BezierCurve(
                                 new Point(10.433, 34.637, Point.CARTESIAN),
                                 new Point(22.5, 70.9, Point.CARTESIAN),
-                                new Point(39.0, 70, Point.CARTESIAN)
+                                new Point(39.0, 72, Point.CARTESIAN)
                         )
                 )
                 .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(180))
@@ -304,7 +304,7 @@ public class FiveSpecimenAutoPedro extends OpMode {
                 .addPath(
                         new BezierLine(
                                 new Point(19.433, 34.637, Point.CARTESIAN),
-                                new Point(11.033, 34.637, Point.CARTESIAN)
+                                new Point(12.033, 34.637, Point.CARTESIAN)
                         )
                 )
                 .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
@@ -315,7 +315,7 @@ public class FiveSpecimenAutoPedro extends OpMode {
                         new BezierCurve(
                                 new Point(10.433, 34.637, Point.CARTESIAN),
                                 new Point(22.5, 70.9, Point.CARTESIAN),
-                                new Point(39.0, 69, Point.CARTESIAN)
+                                new Point(39.0, 72, Point.CARTESIAN)
                         )
                 )
                 .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(180))
@@ -350,6 +350,7 @@ public class FiveSpecimenAutoPedro extends OpMode {
 
         // These loop the movements of the robot
         follower.update();
+        follower.telemetryDebug(telemetryA);
 
         // Feedback to Driver Hub
         telemetry.addData("path state", pathState);
@@ -401,7 +402,8 @@ public class FiveSpecimenAutoPedro extends OpMode {
     public void start() {
         opmodeTimer.resetTimer();
         setPathState(0);
-
+        follower.followPath(Plebeian1,true);
+/*
         FollowPathActions followPlebian1Path = new FollowPathActions(Plebeian1, follower, true, telemetryA);
         FollowPathActions followGoober2Path = new FollowPathActions(Goober2, follower, false, telemetryA);
         FollowPathActions followGoober2ReturnsPath = new FollowPathActions(Goober2Returns, follower, false, telemetryA);
@@ -493,7 +495,7 @@ public class FiveSpecimenAutoPedro extends OpMode {
                                 )
                         )
                 )
-        );
+        );*/
 
         globalRobotDataPedro.autonPose = follower.getPose();
 
