@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
+import com.pedropathing.pathgen.PathChain;
 
 import org.firstinspires.ftc.teamcode.mechanisms.IntakeSlide;
 
@@ -155,11 +156,16 @@ public class IntakeSlideAction extends IntakeSlide {
         }
     }
 
-    public Action extendIntoSubIntakeSlide() {
-        return new ExtendIntoSubSlide();
+    public Action extendIntoSubIntakeSlide(int MaxEncoder) {
+        return new ExtendIntoSubSlide(MaxEncoder);
     }
     public class ExtendIntoSubSlide implements Action {
         private boolean initialized = false;
+        private int _MaxEncoder;
+
+        public ExtendIntoSubSlide(int MaxEncoder) {
+            _MaxEncoder = MaxEncoder;
+        }
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
@@ -167,7 +173,8 @@ public class IntakeSlideAction extends IntakeSlide {
                 extendSlide(0.35);
                 initialized = true;
             }
-            if (getSlideMotorPos() > (TOP_POSITION - 20)) {
+            //change TOP_POSITION - 20 to something less if needed (480 is max)
+            if (getSlideMotorPos() > (_MaxEncoder - 20)) {
                 stopSlide();
                 return false;
             } else {

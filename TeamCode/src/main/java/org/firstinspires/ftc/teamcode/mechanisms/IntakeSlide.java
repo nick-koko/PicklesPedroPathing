@@ -12,7 +12,7 @@ public class IntakeSlide {
 
     // Target positions for the slide mechanism
     protected static final int AUTON_POSITION = 150;
-    public static int TOP_POSITION = 481;
+    public static int TOP_POSITION = 480;
     private static final int STARTING_POSITION = 0;
     private static final int TRANSFER_POSITION = 0;
     public enum SLIDE_STATES{

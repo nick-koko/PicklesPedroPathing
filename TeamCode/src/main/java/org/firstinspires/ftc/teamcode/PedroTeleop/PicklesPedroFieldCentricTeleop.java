@@ -27,7 +27,7 @@ import pedroPathing.constants.LConstants;
  *
  */
 
-@TeleOp(name = "PicklesPedroFieldCentricTeleop", group = "Teleop")
+@TeleOp(name = "PicklesPedroFieldCentricTeleop", group = "Aelep")
 public class PicklesPedroFieldCentricTeleop extends OpMode {
     private Follower follower;
     IntakeServoSpinner frontIntake = new IntakeServoSpinner();

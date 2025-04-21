@@ -40,7 +40,7 @@ import pedroPathing.constants.LConstants;
  * @version 2.0, 11/28/2024
  */
 @Config
-@Autonomous(name = "Five Specimen Auton Pedro Test")
+@Autonomous(name = "Five Specimen Auton Pedro")
 public class FiveSpecimenAutoPedro extends OpMode {
 
     private Follower follower;
@@ -184,7 +184,7 @@ public class FiveSpecimenAutoPedro extends OpMode {
                 .addPath(
                         new BezierLine(
                                 new Point(54.387, 8.549, Point.CARTESIAN),
-                                new Point(31.5, 8.254, Point.CARTESIAN)
+                                new Point(22.5, 8.254, Point.CARTESIAN)
                         )
                 )
                 .setConstantHeadingInterpolation(Math.toRadians(0))

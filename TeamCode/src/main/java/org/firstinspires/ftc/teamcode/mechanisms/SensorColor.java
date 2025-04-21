@@ -71,7 +71,7 @@ public class SensorColor {
   // colors will report at or near 1, and you won't be able to determine what color you are
   // actually looking at. For this reason, it's better to err on the side of a lower gain
   // (but always greater than  or equal to 1).
-  float gain = 2;
+  float gain = 10;
     public enum OBJECT_COLOR{
         WHITE, YELLOW
     }

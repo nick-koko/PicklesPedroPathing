@@ -40,8 +40,8 @@ import pedroPathing.constants.LConstants;
  * @version 2.0, 11/28/2024
  */
 
-@Autonomous(name = "Four or More Sample Auton Pedro")
-public class FourOrMoreSampleAutoPedro extends OpMode {
+@Autonomous(name = "TESTTTFour or More Sample Auton Pedro")
+public class FourOrMoreSampleAutoPedro_TEST extends OpMode {
 
     private Follower follower;
     private Telemetry telemetryA;
@@ -454,7 +454,7 @@ public class FourOrMoreSampleAutoPedro extends OpMode {
 
         Actions.runBlocking(
                 new SequentialAction(
-                        new ParallelAction(
+                   /*     new ParallelAction(
                                 followStartToBucket1,
                                 outtakeSlide.high(),
                                 new SequentialAction(
@@ -602,7 +602,7 @@ public class FourOrMoreSampleAutoPedro extends OpMode {
                                         outtakeSlide.low()
                                 )
                                 //😎👌👌👌 ༼ つ ◕_◕ ༽つ
-                        ),
+                        ), */
                         new ParallelAction(
                             intakeSpinner.intakePosition(),
                             intakeWrist.wristIntakePush(),
@@ -677,8 +677,8 @@ public class FourOrMoreSampleAutoPedro extends OpMode {
                     ),
                     new ParallelAction(
                             new SequentialAction(
-                                    new SleepAction(.2),
-                                    followSubToBucket9 /// /// change to from sub to bucket
+                                    new SleepAction(.2)
+                                 //   followSubToBucket9 /// /// change to from sub to bucket
                             ),
                             new SequentialAction(
                                     intakeSlide.retractIgnorePosition(),
@@ -687,7 +687,7 @@ public class FourOrMoreSampleAutoPedro extends OpMode {
                                     new SleepAction(.3),
                                     intakeSpinner.stopPosition(),
                                     new ParallelAction(
-                                            outtakeSlide.high(),
+                                        //    outtakeSlide.high(),
                                             new SequentialAction(
                                                     new SleepAction(1.5),
                                                     outtakeDump.bucketPosition()    //forth sample in bucket
@@ -695,8 +695,8 @@ public class FourOrMoreSampleAutoPedro extends OpMode {
                                     )
                             )
                     ),
-                    new SleepAction(0.5),
-                    new ParallelAction(
+                    new SleepAction(0.5)
+                /*    new ParallelAction(
 
                             followBucketToSub10,
                             outtakeDump.downPosition(),
@@ -711,11 +711,11 @@ public class FourOrMoreSampleAutoPedro extends OpMode {
                             //outtakeClaw.close()
                             //😎👌👌👌 ༼ つ ◕_◕ ༽つ
                     ),
-                    outtakeSlide.stopOuttakeSlide()
+                    outtakeSlide.stopOuttakeSlide() */
                 )
 
             );
-        } else {
+        } else { /*
             Actions.runBlocking( //Touch Bar
                     new SequentialAction(
                     new ParallelAction(
@@ -724,7 +724,7 @@ public class FourOrMoreSampleAutoPedro extends OpMode {
                             intakeSpinner.stopPosition()/*,
                             outtakeClaw.close(),
                             outtakeSlide.endAutonPos(),
-                            outtakeSlide.stopOuttakeSlide() */
+                            outtakeSlide.stopOuttakeSlide()
                     ),
                     new ParallelAction(
                             followEndSpin11,
@@ -734,7 +734,7 @@ public class FourOrMoreSampleAutoPedro extends OpMode {
                             )
                     ))
             );
-            intakeSlide.transfer();
+            intakeSlide.transfer(); */
         }
 
         globalRobotDataPedro.autonPose = follower.getPose();
