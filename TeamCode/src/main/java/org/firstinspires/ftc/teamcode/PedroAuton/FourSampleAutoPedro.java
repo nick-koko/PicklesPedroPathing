@@ -14,6 +14,7 @@ import com.pedropathing.pathgen.PathChain;
 import com.pedropathing.pathgen.Point;
 import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -42,6 +43,7 @@ import pedroPathing.constants.LConstants;
  */
 
 @Autonomous(name = "Four Sample Auton Pedro Test")
+@Disabled
 public class FourSampleAutoPedro extends OpMode {
 
     private Follower follower;

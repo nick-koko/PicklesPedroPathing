@@ -1,6 +1,7 @@
 package NextFTC;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.rowanmcalpin.nextftc.core.command.Command;
 import com.rowanmcalpin.nextftc.core.command.groups.ParallelGroup;
 import com.rowanmcalpin.nextftc.core.command.groups.SequentialGroup;
@@ -15,6 +16,7 @@ import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.opencv.ColorBlobLocatorProcessor;
 
 @Autonomous(name = "NextFTC Autonomous Program Java")
+@Disabled
 public class AutonomousProgram extends NextFTCOpMode {
     public AutonomousProgram() {
         super(Claw.INSTANCE, Lift.INSTANCE);
