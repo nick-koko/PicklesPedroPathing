@@ -26,8 +26,8 @@ public class DualSlideMechanism {
     private static final int SPECIMENGRAB_POSITION_RIGHT = 0;
     public static int CLIMB_POSITION_LEFT = 2300;
     public static int CLIMB_POSITION_RIGHT = 2300; //
-    public static int END_HANG_POSITION_LEFT = 2000;
-    public static int END_HANG_POSITION_RIGHT = 2000; //😎👌👌 🐦👹🦀🦞❤️😡🤬👺💂‍♀️💂‍♂️💂👅👄🫦🐞🦋🐽🐖‍🚒👨‍🚒👩‍🚒🐦‍🔥🐯🦊🦧🐅🫄🙎🙆🧏💁🙇🙋🤦💆🤷🧖💇🐈😎👌🦕🐉🐍🦖🦎🐊
+    public static int END_HANG_POSITION_LEFT = 1850;
+    public static int END_HANG_POSITION_RIGHT = 1850; //😎👌👌 🐦👹🦀🦞❤️😡🤬👺💂‍♀️💂‍♂️💂👅👄🫦🐞🦋🐽🐖‍🚒👨‍🚒👩‍🚒🐦‍🔥🐯🦊🦧🐅🫄🙎🙆🧏💁🙇🙋🤦💆🤷🧖💇🐈😎👌🦕🐉🐍🦖🦎🐊
 
     //TODONE 😎👌👌
     public enum SLIDE_STATES{
