@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.PedroTeleop;
 import com.acmerobotics.dashboard.config.Config;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.localization.Pose;
-import com.pedropathing.util.Constants;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -17,8 +17,6 @@ import org.firstinspires.ftc.teamcode.mechanisms.IntakeServoSpinner;
 import org.firstinspires.ftc.teamcode.mechanisms.IntakeSlide;
 import org.firstinspires.ftc.teamcode.mechanisms.IntakeWrist;
 import org.firstinspires.ftc.teamcode.mechanisms.OuttakeArmMoverMechanism;
-import org.firstinspires.ftc.teamcode.mechanisms.OuttakeElbowMechanism;
-import org.firstinspires.ftc.teamcode.mechanisms.OuttakeWrist;
 
 import pedroPathing.constants.FConstants;
 import pedroPathing.constants.LConstants;
@@ -28,8 +26,9 @@ import pedroPathing.constants.LConstants;
  *
  */
 @Config
-@TeleOp(name = "PicklesPedroFieldCentricTeleop", group = "Aelep")
-public class PicklesPedroFieldCentricTeleop extends OpMode {
+@Disabled
+@TeleOp(name = "LukesPicklesPedroFieldCentricTeleopWithAutoTransfer", group = "Aelep")
+public class LukesPicklesPedroFieldCentricTeleopWithAutoTransfer extends OpMode {
     private Follower follower;
     IntakeServoSpinner frontIntake = new IntakeServoSpinner();
     ClawMechanism specimenClaw = new ClawMechanism();
@@ -189,6 +188,11 @@ public class PicklesPedroFieldCentricTeleop extends OpMode {
         // INTAKE CONDITIONS
 
         intakeLeftStickSlidePowerFactor = 0.4;
+
+        if (gamepad2.dpad_up) {
+            intakeArmServo.armPositionTransfer();
+            intakeSlide.retractSlide(0.400);
+        }
 
         if (-gamepad2.left_stick_y < -0.05) {
             pushIntake = false;
