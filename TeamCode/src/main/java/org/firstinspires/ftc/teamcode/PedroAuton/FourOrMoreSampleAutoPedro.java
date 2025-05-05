@@ -70,7 +70,7 @@ public class FourOrMoreSampleAutoPedro extends OpMode {
     Pose firstSamplePoseLeftSideSample2 = new Pose(45.544, 107.447, Math.toRadians(90));
     Pose secondSamplePoseLeftSideSample = new Pose(45.544, 120.447, Math.toRadians(90));
     Pose thirdSamplePoseLeftSideSample = new Pose(45.2, 128.447, Math.toRadians(90));
-    Pose goToSubPose1 = new Pose(68.5, 92, Math.toRadians(-90));
+    Pose goToSubPose1 = new Pose(65, 92, Math.toRadians(-90));
     Pose goToSubNoSampleSpin = new Pose(62, 110, Math.toRadians(90));
     Pose goToSubPoseEND = new Pose(62, 92, Math.toRadians(90));
 
