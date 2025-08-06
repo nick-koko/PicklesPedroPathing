@@ -25,7 +25,7 @@ import pedroPathing.constants.LConstants;
 
 /**
  * This is a modified example teleop that showcases movement and field-centric driving.
- *
+ * Mr.TODONE 😎👌👌 Mr.TODONE 😎👌👌 Mr.TODONE 😎👌👌 Mr.TODONE 😎👌👌
  */
 @Config
 @TeleOp(name = "PicklesPedroFieldCentricTeleop", group = "Aelep")
@@ -64,57 +64,93 @@ public class PicklesPedroFieldCentricTeleop extends OpMode {
     boolean retractingIntakeSlide = false;
     private Pose startPose = new Pose(9,62.75,Math.toRadians(180));
 
-    /** This method is call once when init is played, it initializes the follower **/
+    /** 
+     * INIT FUNCTION - This runs ONCE when you press INIT on the driver station
+     * Think of this like setting up all your equipment before a soccer game!
+     **/
     @Override
     public void init() {
+        
+        // ===== STEP 1: Figure out where the robot is on the field =====
+        // If we just finished autonomous, use the ending position from autonomous
+        // If not, use our default starting position (9, 62.75 inches, facing backwards)
         if (globalRobotDataPedro.hasAutonRun){
-            startPose = globalRobotDataPedro.autonPose;
-            globalRobotDataPedro.hasAutonRun = false;
+            startPose = globalRobotDataPedro.autonPose;  // Use where autonomous ended
+            globalRobotDataPedro.hasAutonRun = false;    // Reset the flag
         }
+        // NOTE: This is super important for field-centric driving to work correctly!
+        
+        // ===== STEP 2: Set up Pedro Pathing (like giving the robot a GPS) =====
+        // FConstants = "Follower" constants - tells Pedro HOW to drive (motor names, PID settings, etc.)
+        // LConstants = "Localization" constants - tells Pedro HOW to track position (sensor locations, etc.) 
         follower = new Follower(hardwareMap, FConstants.class,LConstants.class);
-        follower.setStartingPose(startPose);
-
-        //Mechanisim Initialization
-
-        frontIntake.init(hardwareMap);
-        specimenClaw.init(hardwareMap);
-        outtakeSlide.init(hardwareMap);
-        climbingServo.init(hardwareMap);
-        intakeSlide.init(hardwareMap);
-        intakeArmServo.init(hardwareMap);
-        outtakeArmServo.init(hardwareMap);
-        intakeWrist.init(hardwareMap);
-        //outtakeElbow.init(hardwareMap);
-        //outtakeWrist.init(hardwareMap);
+        follower.setStartingPose(startPose);  // Tell Pedro where we are starting
+        // This helps the robot know which direction is "forward" on the field
+        
+        // ===== STEP 3: Connect all robot mechanisms to actual hardware =====
+        // Each .init() finds the motor/servo in the hardware map and gets it ready
+        // Think of this like plugging controllers into a gaming console
+        
+        frontIntake.init(hardwareMap);        // The spinning thing that picks up samples
+        specimenClaw.init(hardwareMap);       // The claw that grabs specimens 
+        outtakeSlide.init(hardwareMap);       // The slides that lift up to score
+        climbingServo.init(hardwareMap);      // The hooks for climbing at the end
+        intakeSlide.init(hardwareMap);        // The slides that extend the intake out
+        intakeArmServo.init(hardwareMap);     // The arm that moves the intake up/down
+        outtakeArmServo.init(hardwareMap);    // The arm that tips the bucket to score
+        intakeWrist.init(hardwareMap);        // The wrist that aims the intake
+        
+        // These are commented out because we decided not to use them this year:
+        //outtakeElbow.init(hardwareMap);     // Extra outtake joint we didn't need
+        //outtakeWrist.init(hardwareMap);     // Extra outtake wrist we didn't need
 
     }
 
-    /** This method is called continuously after Init while waiting to be started. **/
+    /** 
+     * INIT_LOOP FUNCTION - This runs REPEATEDLY while waiting for the match to start
+     * Think of this like the time between when the robot is ready and when the referee says "GO!"
+     * This is perfect for emergency fixes or last-minute adjustments before the match starts
+     **/
     @Override
     public void init_loop() {
-        //if (stomatchCapacity.low)
+        
+        // ===== EMERGENCY SLIDE RESET (available during init) =====
+        // If the driver pulls the right trigger on gamepad1, reset both slides to zero position
+        // This is helpful if the slides got moved during setup and need to be recalibrated
         if (gamepad1.right_trigger > 0.2) {
-            intakeSlide.resetSlide();
-            outtakeSlide.resetSlide();
-            gamepad1.rumble(1000);
+            intakeSlide.resetSlide();     // Reset intake slide encoder to 0
+            outtakeSlide.resetSlide();    // Reset outtake slide encoder to 0  
+            gamepad1.rumble(1000);        // Buzz the controller to confirm it worked
         }
     }
 
-    /** This method is called once at the start of the OpMode. **/
+    /** 
+     * START FUNCTION - This runs ONCE when the match begins (when you press the PLAY button)
+     * Think of this like getting into your starting stance before a basketball game!
+     * It puts all the robot mechanisms in safe, ready-to-drive positions
+     **/
     @Override
     public void start() {
-        follower.startTeleopDrive();
-
+        
+        // ===== ACTIVATE PEDRO PATHING FOR TELEOP DRIVING =====
+        follower.startTeleopDrive();  // Tell Pedro we're starting teleop (not autonomous)
+        
+        // Old Road Runner code - not needed anymore since we use Pedro Pathing:
         //follower.setPose(startPose); old RR teleop had robot.pose = startingPose; at the start of teleop, not sure if needed
 
-        outtakeArmServo.armMoverDrivePosition();
-        //outtakeElbow.outtakeElbowDrivePosition();
-        //outtakeWrist.wristPositionSideways();
-        intakeSlide.slidePositionTransfer();
-        intakeArmServo.armPositionDrive();
-        intakeWrist.wristPositionDrive();
-        specimenClaw.clawOpen();
-        climbingServo.hookPositionDown();
+        // ===== SET ALL MECHANISMS TO SAFE STARTING POSITIONS =====
+        // Put everything in "drive" position - safe and out of the way for driving around
+        
+        outtakeArmServo.armMoverDrivePosition();   // Outtake arm down and safe
+        intakeSlide.slidePositionTransfer();       // Intake slides pulled back inside robot
+        intakeArmServo.armPositionDrive();         // Intake arm in safe driving position  
+        intakeWrist.wristPositionDrive();          // Intake wrist pointing forward
+        specimenClaw.clawOpen();                   // Claw open and ready to grab specimens
+        climbingServo.hookPositionDown();          // Climbing hooks down and out of the way
+        
+        // These mechanisms were removed from this year's robot design:
+        //outtakeElbow.outtakeElbowDrivePosition();  // Not used this year
+        //outtakeWrist.wristPositionSideways();      // Not used this year
 
     }
 

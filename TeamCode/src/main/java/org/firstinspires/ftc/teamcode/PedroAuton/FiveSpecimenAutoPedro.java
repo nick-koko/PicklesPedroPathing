@@ -107,7 +107,7 @@ public class FiveSpecimenAutoPedro extends OpMode {
 
         /* This is our scorePreload path. We are using a BezierLine, which is a straight line. */
         Plebeian1 = follower.pathBuilder()
-                .addPath(
+                .addPath(  //GotoSub
                         new BezierLine(
                                 new Point(initialPoseRightSideSpecimen),
                                 new Point(dropFirstSpecimen)
@@ -118,7 +118,7 @@ public class FiveSpecimenAutoPedro extends OpMode {
                 .build();
 
         Goober2 = follower.pathBuilder()
-                .addPath(
+                .addPath(  //Move1
                         new BezierCurve(
                                 new Point(dropFirstSpecimen),
                                 new Point(moveAndTurnToFirstSample1_CP),
@@ -127,7 +127,7 @@ public class FiveSpecimenAutoPedro extends OpMode {
                 )
                 .setLinearHeadingInterpolation(dropFirstSpecimen.getHeading(), moveAndTurnToFirstSample1.getHeading())
 
-                .addPath(
+                .addPath(  //Move2
                         new BezierCurve(
                                 new Point(moveAndTurnToFirstSample1),
                                 new Point(moveAroundSubControlPoint1),
@@ -136,7 +136,7 @@ public class FiveSpecimenAutoPedro extends OpMode {
                 )
                 .setConstantHeadingInterpolation(moveAroundSubToFirstSample.getHeading())
 
-                .addPath(
+                .addPath(  //Move3
                         new BezierCurve(
                                 new Point(moveAroundSubToFirstSample),
                                 new Point(moveAndTurnToFirstSample2_CP),
@@ -145,7 +145,7 @@ public class FiveSpecimenAutoPedro extends OpMode {
                 )
                 .setLinearHeadingInterpolation(moveAroundSubToFirstSample.getHeading(), moveAndTurnToFirstSample2.getHeading())
 
-                .addPath(
+                .addPath(  //PushIn1
                         new BezierCurve(
                                 new Point(moveAndTurnToFirstSample2),
                                 new Point(47.312, 21.814, Point.CARTESIAN),
@@ -153,7 +153,7 @@ public class FiveSpecimenAutoPedro extends OpMode {
                         )
                 )
                 .setConstantHeadingInterpolation(Math.toRadians(0))
-                .addPath(
+                .addPath(  //GoBackTo2
                         new BezierCurve(
                                 new Point(30.805, 23.140, Point.CARTESIAN),
                                 new Point(54.092, 24.319, Point.CARTESIAN),
@@ -162,7 +162,7 @@ public class FiveSpecimenAutoPedro extends OpMode {
                 )
                 .setConstantHeadingInterpolation(Math.toRadians(0))
 
-                .addPath(
+                .addPath(  //PushIn2
                         new BezierCurve(
                                 new Point(55.419, 17.982, Point.CARTESIAN),
                                 new Point(58.956, 11.644, Point.CARTESIAN),
@@ -171,7 +171,7 @@ public class FiveSpecimenAutoPedro extends OpMode {
                 )
                 .setConstantHeadingInterpolation(Math.toRadians(0))
 
-                .addPath(
+                .addPath(  //GoBackTo3
                         new BezierCurve(
                                 new Point(31.5, 14.149, Point.CARTESIAN),
                                 new Point(64.852, 15.329, Point.CARTESIAN),
@@ -181,7 +181,7 @@ public class FiveSpecimenAutoPedro extends OpMode {
                 )
                 .setConstantHeadingInterpolation(Math.toRadians(0))
 
-                .addPath(
+                .addPath(  //PushIn3
                         new BezierLine(
                                 new Point(54.387, 8.549, Point.CARTESIAN),
                                 new Point(22.5, 8.254, Point.CARTESIAN)
@@ -215,7 +215,7 @@ public class FiveSpecimenAutoPedro extends OpMode {
                 .build();
 
         OhDip3 = follower.pathBuilder()
-                .addPath(
+                .addPath(  //PlaceSpec2
                         new BezierCurve(
                                 new Point(10.433, 34.637, Point.CARTESIAN),
                                 new Point(22.5, 70.9, Point.CARTESIAN),
@@ -228,7 +228,7 @@ public class FiveSpecimenAutoPedro extends OpMode {
 
 
         DumbName4 = follower.pathBuilder()
-                .addPath(
+                .addPath(  //GoForSpec3
                         new BezierCurve(
                                 new Point(39.000, 72.000, Point.CARTESIAN),
                                 new Point(21.372, 33.310, Point.CARTESIAN),
@@ -237,7 +237,7 @@ public class FiveSpecimenAutoPedro extends OpMode {
                 )
                 .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(0))
 
-                .addPath(
+                .addPath(  //GrabSpec3
                         new BezierLine(
                                 new Point(19.433, 34.637, Point.CARTESIAN),
                                 new Point(11.033, 34.637, Point.CARTESIAN)

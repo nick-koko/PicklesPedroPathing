@@ -1,0 +1,60 @@
+package org.firstinspires.ftc.teamcode.mechanisms;
+
+import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ServoImplEx;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
+@Config
+public class ClawOnArmMechanism {
+    // Assuming some motor control library is used, e.g., FTC SDK, but this can be customized
+    private ServoImplEx clawServo;
+
+    // Target positions for the servo claw
+    public static double OPEN_OnARM_POSITION = 0.6                      ;
+    public static double DROP_POSITION = 0.26;
+    public static double CLOSE_OnARM_POSITION = 0.9;
+    private ElapsedTime clawTimer = new ElapsedTime();
+
+    public enum CLAW_STATES {
+        CLAW_OPEN_POS, CLAW_CLOSE_POS, CLAW_DROP_POS
+    }
+
+    private CLAW_STATES curClawState = null;
+
+    double stateDelayTime = 0;
+
+    public void init(HardwareMap hwMap) {
+
+        clawServo = hwMap.get(ServoImplEx.class, "claw_servo");
+        this.clawServo.setDirection(Servo.Direction.FORWARD);
+        curClawState = CLAW_STATES.CLAW_OPEN_POS;
+    }
+
+    // Method to move the claw to the open position
+    public void clawOpen() {
+        clawServo.setPosition(OPEN_OnARM_POSITION);
+        curClawState = CLAW_STATES.CLAW_OPEN_POS;
+    }
+
+    public void clawDropPosition() {
+        clawServo.setPosition(DROP_POSITION);
+        curClawState = CLAW_STATES.CLAW_DROP_POS;
+    }
+
+    // Method to move the claw to the close position
+    public void clawClose() {
+        clawServo.setPosition(CLOSE_OnARM_POSITION);
+        curClawState = CLAW_STATES.CLAW_CLOSE_POS;
+    }
+
+    public CLAW_STATES getClawState() {
+        return curClawState;
+    }
+
+    public void clawOff() {
+        clawServo.setPwmDisable();
+
+    }
+}

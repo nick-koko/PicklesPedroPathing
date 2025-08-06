@@ -11,7 +11,7 @@ public class OuttakeElbowMechanism {
     private Servo outtakeElbowServo;
 
     // Target positions for the servo arm
-    public static double DRIVE_POSITION = .3;
+    public static double DRIVE_POSITION = .6;
     public static double TRANSFER_POSITION = .285;
     public static double BUCKET_POSITION = 1;
     public static double SPECIMINE_GRAB_POSITION = 1;
